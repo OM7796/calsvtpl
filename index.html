@@ -274,10 +274,9 @@
             <div class="form-container" id="form3" style="display:none;">
                 <h3>FRP Hanger (Pair)</h3>
                 <form id="frpHangerForm" class="form">
-                    <label for="numberOfHangers">Number of FRP Hangers:</label>
+                    <label for="numberOfHangers">Number of FRP Hangers(Pair) :</label>
                     <input type="number" id="numberOfHangers" name="numberOfHangers" required><br>
 
-                    <input class="calculatebutton" type="submit" value="Calculate Weight">
                 </form>
 
                 <div class="result">
@@ -288,23 +287,46 @@
             <div class="form-container" id="form4" style="display:none;">
                 <h3>Round Pipe Tray (Inner & Outer Radius)</h3>
                 <form id="roundPipeTrayRadiusForm" class="form">
-                    <label for="outerRadius">Outer Radius (mm):</label>
-                    <input type="number" id="outerRadius" name="outerRadius" required><br>
+                    <label for="outerDiameter">Outer Diameter (mm):</label>
+                    <input type="number" id="outerDiameter" name="outerDiameter" required><br>
 
                     <label for="thickness">Thickness (mm):</label>
                     <input type="number" id="thickness" name="thickness" required><br>
 
-                    <label for="lengthPipeRadius">Length (mm):</label>
-                    <input type="number" id="lengthPipeRadius" name="lengthPipeRadius" required><br>
+                    <label for="lengthPipeDiameter">Length (mm):</label>
+                    <input type="number" id="lengthPipeDiameter" name="lengthPipeDiameter" required><br>
 
-                    <input class="calculatebutton" type="submit" value="Calculate Weight">
+
+
                 </form>
 
                 <div class="result">
-                    <p>Weight (kg): <span id="pipeWeightRadiusResult"></span></p>
+                    <p>Weight (kg): <span id="pipeWeightDiameterResult"></span></p>
                 </div>
             </div>
 
+
+            <!-- Inside form6 (Clamf Wt) -->
+            <div class="form-container" id="form6" style="display:none;">
+                <h3>Clamp Weight</h3>
+                <form id="clamfForm" class="form">
+
+                    <label for="numClamps">Number of Clamps:</label>
+                    <input type="number" id="numClamps" name="numClamps" required><br>
+
+                    <!-- Add a result element for Clamf Weight -->
+                    <div class="result">
+                        <p>Clamp Weight (kg): <span id="clamfResult"></span></p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-container" id="form7" style="display:none;">
+                <h3>Total Weight</h3>
+                <div class="result">
+                    <p>Total Clamp & Weight Round Pipe Weight (kg): <span id="totalRoundPipeWeight"></span></p>
+                </div>
+            </div>
 
         </div>
 
@@ -318,6 +340,8 @@
             document.getElementById('form3').style.display = 'none';
             document.getElementById('form4').style.display = 'none';
             document.getElementById('form5').style.display = 'block';
+            document.getElementById('form6').style.display = 'none';
+            document.getElementById('form7').style.display = 'none';
             document.getElementById('totalWeightForm').style.display = 'block';
         });
 
@@ -327,6 +351,8 @@
             document.getElementById('form3').style.display = 'block';
             document.getElementById('form4').style.display = 'none';
             document.getElementById('form5').style.display = 'none';
+            document.getElementById('form6').style.display = 'none';
+            document.getElementById('form7').style.display = 'none';
             document.getElementById('totalWeightForm').style.display = 'none';
         });
 
@@ -336,6 +362,8 @@
             document.getElementById('form3').style.display = 'none';
             document.getElementById('form4').style.display = 'block';
             document.getElementById('form5').style.display = 'none';
+            document.getElementById('form6').style.display = 'block';
+            document.getElementById('form7').style.display = 'block';
             document.getElementById('totalWeightForm').style.display = 'none';
         });
 
@@ -357,6 +385,16 @@
             var totalWeight = flatTrayWeight + supportPlateWeight;
 
             document.getElementById('totalWeightResult').textContent = totalWeight.toFixed(2);
+        }
+
+        function calculateTotalWeights() {
+            var clamfWeight = parseFloat(document.getElementById('clamfResult').textContent) || 0;
+            var pipeWeight = parseFloat(document.getElementById('pipeWeightDiameterResult').textContent) || 0;
+
+            var totalWeight = clamfWeight + pipeWeight;
+
+            document.getElementById('totalRoundPipeWeight').textContent = totalWeight.toFixed(2);
+            calculateTotalCost();
         }
 
 
@@ -412,32 +450,55 @@
         document.getElementById('motorMountingPlate').addEventListener('change', calculateSidePlateWeight);
 
 
-        document.getElementById('frpHangerForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
+        function calculateFrpWeight() {
             var numberOfHangers = parseFloat(document.getElementById('numberOfHangers').value);
-
             var frpWeight = numberOfHangers * 1.3; // Weight of FRP Hanger in kg
-
             document.getElementById('frpWeightResult').textContent = frpWeight.toFixed(2);
             updateTotalWeight();
-        });
+        }
+        document.getElementById('numberOfHangers').addEventListener('input', calculateFrpWeight);
 
-        document.getElementById('roundPipeTrayRadiusForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            var outerRadius = parseFloat(document.getElementById('outerRadius').value) / 1000; // Convert to meters
+        function calculatePipeWeight() {
+            var outerDiameter = parseFloat(document.getElementById('outerDiameter').value) / 1000; // Convert to meters
             var thickness = parseFloat(document.getElementById('thickness').value) / 1000; // Convert to meters
-            var lengthPipeRadius = parseFloat(document.getElementById('lengthPipeRadius').value) / 1000; // Convert to meters
+            var lengthPipeDiameter = parseFloat(document.getElementById('lengthPipeDiameter').value) / 1000; // Convert to meters
+            var numClamps = parseInt(document.getElementById('numClamps').value); // Get the number of clamps
 
-            // Calculate the inner radius based on provided values
-            var innerRadius = (outerRadius - thickness);
+            var innerDiameter = outerDiameter - 2 * thickness;
 
-            var weight = Math.PI * ((Math.pow(outerRadius / 2, 2) - Math.pow(outerRadius / 2 - thickness, 2)) * lengthPipeRadius * 7850);
+            var weight = Math.PI * ((Math.pow(outerDiameter / 2, 2) - Math.pow(innerDiameter / 2, 2)) * lengthPipeDiameter * 7850);
 
-            document.getElementById('pipeWeightRadiusResult').textContent = weight.toFixed(2);
+            document.getElementById('pipeWeightDiameterResult').textContent = weight.toFixed(2);
             updateTotalWeight();
-        });
+            calculateTotalWeights();
+        }
+        document.getElementById('numClamps').addEventListener('input', calculateClamfWeight);
+        document.getElementById('outerDiameter').addEventListener('input', calculateClamfWeight);
+        document.getElementById('thickness').addEventListener('input', calculateClamfWeight);
+
+
+        function calculateClamfWeight() {
+            var numClamps = parseInt(document.getElementById('numClamps').value); // Get the number of clamps
+            var outerDiameter = parseFloat(document.getElementById('outerDiameter').value) / 1000; // Convert to meters
+            var thickness = parseFloat(document.getElementById('thickness').value) / 1000; // Convert to meters
+
+            var width = outerDiameter * Math.PI; // Calculate width
+            var additionalWeight = (width * 100 * thickness * 7.85); // Calculate half of the additional weight
+
+            var clamfWeight = additionalWeight * numClamps;
+
+            document.getElementById('clamfResult').textContent = clamfWeight.toFixed(2);
+            updateTotalWeight();
+            calculateTotalWeights(); // Assuming you have an updateTotalWeight function
+        }
+
+        // Attach the event listeners
+
+        document.getElementById('outerDiameter').addEventListener('input', calculatePipeWeight);
+        document.getElementById('thickness').addEventListener('input', calculatePipeWeight);
+        document.getElementById('lengthPipeDiameter').addEventListener('input', calculatePipeWeight);
+        document.getElementById('numClamps').addEventListener('input', calculatePipeWeight);
+
 
 
     </script>
