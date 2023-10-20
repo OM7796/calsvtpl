@@ -27,24 +27,12 @@
         .title {
             font-size: 24px;
             margin: 0;
+            color: #fff;
         }
 
-        .nav-panel {
-            display: flex;
-            flex-direction: column;
-            width: 20%;
-            background-color: #7dc0cf;
-            color: #fff;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            margin-top: 40px;
-            /* Added margin to start below header */
-            overflow-y: auto;
-            box-sizing: border-box;
-            border-radius: 10px;
-            padding-top: 20px;
+        .content-container {
+            margin-top: 70px;
+            padding: 10px;
         }
 
         .toggle-btn {
@@ -57,7 +45,7 @@
             font-size: 16px;
             padding: 10px;
             text-align: left;
-            margin: 5px 10px;
+            margin: 5px 0;
             outline: none;
             transition: background-color 0.3s;
         }
@@ -71,29 +59,18 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
-            margin-left: 20%;
-            margin-top: 3%;
-            width: 60%;
+            margin-bottom: 20px;
         }
 
         .form-container h3 {
             margin-top: 0;
-        }
-
-        .content-container {
-            margin-left: 10%;
-            width: 80%;
-            margin-top: 2%;
-        }
-
-        .content-container>* {
-            margin-bottom: 20px;
+            font-size: 20px;
         }
 
         .form label {
             display: block;
             margin-bottom: 5px;
+            font-size: 16px;
         }
 
         .form input {
@@ -103,25 +80,8 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            font-size: 16px;
         }
-
-
-        #pricePerKg {
-            width: calc(100% - 12px);
-            padding: 8px;
-            margin-bottom: 7px;
-            margin-top: 6px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .tic-checkbox input {
-            margin-right: 2px;
-            align-items: flex-start;
-        }
-
-
 
         .result {
             font-size: 16px;
@@ -133,7 +93,6 @@
             font-size: 16px;
             font-weight: bold;
             margin-top: 20px;
-            margin-left: 22%;
         }
 
         .total-button {
@@ -146,8 +105,6 @@
             cursor: pointer;
             margin-top: 20px;
             transition: background-color 0.3s;
-            margin-left: 22%;
-            margin-right: 4%;
         }
 
         .calculatebutton {
@@ -158,12 +115,7 @@
             background-color: #555;
         }
 
-
         @media (max-width: 767px) {
-            .title {
-                font-size: 18px;
-            }
-
             .toggle-btn {
                 font-size: 14px;
             }
