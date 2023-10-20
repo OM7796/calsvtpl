@@ -27,12 +27,24 @@
         .title {
             font-size: 24px;
             margin: 0;
-            color: #fff;
         }
 
-        .content-container {
-            margin-top: 70px;
-            padding: 10px;
+        .nav-panel {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            background-color: #7dc0cf;
+            color: #fff;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin-top: 40px;
+            /* Added margin to start below header */
+            overflow-y: auto;
+            box-sizing: border-box;
+            border-radius: 10px;
+            padding-top: 20px;
         }
 
         .toggle-btn {
@@ -45,7 +57,7 @@
             font-size: 16px;
             padding: 10px;
             text-align: left;
-            margin: 5px 0;
+            margin: 5px 10px;
             outline: none;
             transition: background-color 0.3s;
         }
@@ -59,18 +71,29 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            margin-left: 20%;
+            margin-top: 3%;
+            width: 60%;
         }
 
         .form-container h3 {
             margin-top: 0;
-            font-size: 20px;
+        }
+
+        .content-container {
+            margin-left: 10%;
+            width: 80%;
+            margin-top: 2%;
+        }
+
+        .content-container>* {
+            margin-bottom: 20px;
         }
 
         .form label {
             display: block;
             margin-bottom: 5px;
-            font-size: 16px;
         }
 
         .form input {
@@ -80,8 +103,25 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            font-size: 16px;
         }
+
+
+        #pricePerKg {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 7px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .tic-checkbox input {
+            margin-right: 2px;
+            align-items: flex-start;
+        }
+
+
 
         .result {
             font-size: 16px;
@@ -93,6 +133,7 @@
             font-size: 16px;
             font-weight: bold;
             margin-top: 20px;
+            margin-left: 22%;
         }
 
         .total-button {
@@ -105,6 +146,8 @@
             cursor: pointer;
             margin-top: 20px;
             transition: background-color 0.3s;
+            margin-left: 22%;
+            margin-right: 4%;
         }
 
         .calculatebutton {
@@ -115,7 +158,12 @@
             background-color: #555;
         }
 
+
         @media (max-width: 767px) {
+            .title {
+                font-size: 18px;
+            }
+
             .toggle-btn {
                 font-size: 14px;
             }
@@ -161,61 +209,42 @@
                 <h3>Flat Tray</h3>
                 <form id="flatTrayForm" class="form">
                     <label for="length1">Length (mm):</label>
-                    <input type="number" id="length1" name="length1" required><br>
+                    <input type="number" id="length1" name="length1" required oninput="calculateFlatTrayWeight()"><br>
 
                     <label for="width1">Width (mm):</label>
-                    <input type="number" id="width1" name="width1" required><br>
+                    <input type="number" id="width1" name="width1" required oninput="calculateFlatTrayWeight()"><br>
 
                     <label for="height1">Height (mm):</label>
-                    <input type="number" id="height1" name="height1" required><br>
+                    <input type="number" id="height1" name="height1" required oninput="calculateFlatTrayWeight()"><br>
 
                     <label for="thickness1">Thickness (mm):</label>
-                    <input type="number" id="thickness1" name="thickness1" required><br>
+                    <input type="number" id="thickness1" name="thickness1" required
+                        oninput="calculateFlatTrayWeight()"><br>
 
-                    <!-- <input class="calculatebutton " type="submit" value="Calculate Weight"> -->
-                </form>
-
-                <div class="result">
-                    <p>Flat Tray Weight (kg): <span id="flatWeightResult"></span></p>
-                </div>
-            </div>
-
-            <div class="form-container" id="form2">
-                <h3>Side Plate</h3>
-                <form id="supportPlateForm" class="form">
-                    <label for="side1">Side 1 (mm):</label>
-                    <input type="number" id="side1" name="side1" required><br>
-
-                    <label for="side2">Side 2 (mm):</label>
-                    <input type="number" id="side2" name="side2" required><br>
-
-                    <label for="thicknessPlate">Thickness (mm):</label>
-                    <input type="number" id="thicknessPlate" name="thicknessPlate" required><br>
+                    <label for="pricePerKg">Price per Kg (In Rs.):</label>
+                    <input type="number" id="pricePerKg" oninput="calculateFlatTrayWeight()"><br>
 
                     <div class="tic-checkbox">
-                        <input type="checkbox" id="addRibs">
-                        <label for="addRibs">Add Ribs (20% weight increase)</label>
-                    </div>
-
-                    <div class="tic-checkbox">
-                        <input type="checkbox" id="motorMountingPlate">
+                        <input type="checkbox" id="motorMountingPlate" onchange="calculateSidePlateWeight()">
                         <label for="motorMountingPlate">Motor Mounting Plate (30 Kg weight increase)</label>
                     </div>
 
-                    <!-- <input class="calculatebutton" type="submit" value="Calculate Weight"> -->
+                    <div class="tic-checkbox">
+                        <input type="checkbox" id="addRibs" onchange="calculateSidePlateWeight()">
+                        <label for="addRibs">Add Ribs (30% of Side Plate Weight)</label>
+                    </div>
                 </form>
-
-                <div class="result">
-                    <p>Side Plate Weight (kg)(With Ribs): <span id="plateWeightResult"></span></p>
-                </div>
             </div>
-
-
-            <div class="form-container" id="form5">
+            <div class="form-container" id="form2">
                 <h3>Result Tab</h3>
 
-                <label for="pricePerKg">Price per Kg (In Rs.):</label>
-                <input type="number" id="pricePerKg" required><br>
+                <div class="result">
+                    <p>Flat Tray Weight (kg): <span id="flatWeightResultResult"></span></p>
+                </div>
+
+                <div class="result">
+                    <p>Side Plate Weight (kg)(With Ribs): <span id="plateWeightResultResult"></span></p>
+                </div>
 
                 <div class="result">
                     <p>Total Weight (kg)(Flat Tray & Side Plate): <span id="totalWeightResult"></span></p>
@@ -273,13 +302,6 @@
                 </form>
             </div>
 
-            <div class="form-container" id="form7" style="display:none;">
-                <h3>Total Weight</h3>
-                <div class="result">
-                    <p>Total Clamp & Weight Round Pipe Weight (kg): <span id="totalRoundPipeWeight"></span></p>
-                </div>
-            </div>
-
         </div>
 
     </div>
@@ -291,9 +313,8 @@
             document.getElementById('form2').style.display = 'block';
             document.getElementById('form3').style.display = 'none';
             document.getElementById('form4').style.display = 'none';
-            document.getElementById('form5').style.display = 'block';
             document.getElementById('form6').style.display = 'none';
-            document.getElementById('form7').style.display = 'none';
+
             document.getElementById('totalWeightForm').style.display = 'block';
         });
 
@@ -302,9 +323,8 @@
             document.getElementById('form2').style.display = 'none';
             document.getElementById('form3').style.display = 'block';
             document.getElementById('form4').style.display = 'none';
-            document.getElementById('form5').style.display = 'none';
             document.getElementById('form6').style.display = 'none';
-            document.getElementById('form7').style.display = 'none';
+
             document.getElementById('totalWeightForm').style.display = 'none';
         });
 
@@ -313,42 +333,10 @@
             document.getElementById('form2').style.display = 'none';
             document.getElementById('form3').style.display = 'none';
             document.getElementById('form4').style.display = 'block';
-            document.getElementById('form5').style.display = 'none';
             document.getElementById('form6').style.display = 'block';
-            document.getElementById('form7').style.display = 'block';
+
             document.getElementById('totalWeightForm').style.display = 'none';
         });
-
-
-        function calculateTotalCost() {
-            var totalWeight = parseFloat(document.getElementById('totalWeightResult').textContent);
-            var pricePerKg = parseFloat(document.getElementById('pricePerKg').value);
-
-            var totalCost = totalWeight * pricePerKg;
-
-            document.getElementById('totalCostResult').textContent = totalCost.toFixed(2);
-        }
-        document.getElementById('pricePerKg').addEventListener('input', calculateTotalCost);
-
-        function calculateTotalWeight() {
-            var flatTrayWeight = parseFloat(document.getElementById('flatWeightResult').textContent);
-            var supportPlateWeight = parseFloat(document.getElementById('plateWeightResult').textContent);
-
-            var totalWeight = flatTrayWeight + supportPlateWeight;
-
-            document.getElementById('totalWeightResult').textContent = totalWeight.toFixed(2);
-        }
-
-        function calculateTotalWeights() {
-            var clamfWeight = parseFloat(document.getElementById('clamfResult').textContent) || 0;
-            var pipeWeight = parseFloat(document.getElementById('pipeWeightDiameterResult').textContent) || 0;
-
-            var totalWeight = clamfWeight + pipeWeight;
-
-            document.getElementById('totalRoundPipeWeight').textContent = totalWeight.toFixed(2);
-            calculateTotalCost();
-        }
-
 
 
         function calculateFlatTrayWeight() {
@@ -356,50 +344,52 @@
             var width = parseFloat(document.getElementById('width1').value) / 1000;
             var height = parseFloat(document.getElementById('height1').value) / 1000;
             var thickness = parseFloat(document.getElementById('thickness1').value);
+            var pricePerKg = parseFloat(document.getElementById('pricePerKg').value);
 
-            var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.850;
-            var wt2 = (0.12 * length + 0.06 * width) * thickness * 7.850;
+            var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.85;
+            var wt2 = (0.12 * length + 0.06 * width) * thickness * 7.85;
             var totalWeight = weight + wt2;
 
-            document.getElementById('flatWeightResult').textContent = totalWeight.toFixed(2);
+            document.getElementById('flatWeightResultResult').textContent = totalWeight.toFixed(2);
             calculateTotalWeight();
-        }
+            calculateSidePlateWeight();
 
-        document.getElementById('length1').addEventListener('input', calculateFlatTrayWeight);
-        document.getElementById('width1').addEventListener('input', calculateFlatTrayWeight);
-        document.getElementById('height1').addEventListener('input', calculateFlatTrayWeight);
-        document.getElementById('thickness1').addEventListener('input', calculateFlatTrayWeight);
+
+            if (!isNaN(pricePerKg)) {
+                var totalCost = totalWeight * pricePerKg;
+                document.getElementById('totalCostResult').textContent = totalCost.toFixed(2);
+            }
+        }
 
         function calculateSidePlateWeight() {
-            var side1 = parseFloat(document.getElementById('side1').value);
-            var side2 = parseFloat(document.getElementById('side2').value);
-            var thicknessPlate = parseFloat(document.getElementById('thicknessPlate').value);
+            var flatTrayLength = parseFloat(document.getElementById('length1').value) / 1000;
+            var length = flatTrayLength * 0.8; // Using 80% of flat tray length
+            var thickness = parseFloat(document.getElementById('thickness1').value); // Using thickness from flat tray
 
-            var length = side1 / 1000;
-            var width = side2 / 1000;
-            var thickness = thicknessPlate;
-            var volume = length * width * thickness;
+            var widthMeters = (length / Math.sqrt(2)); // Since it's a 45-45-90 triangle, the other side is length divided by sqrt(2)
+            var volume = length * widthMeters * thickness;
 
-            if (document.getElementById('addRibs').checked) {
-                volume *= 1.2;
+            var weight = volume * 7.85; // Assuming density of steel is 7.85 g/cm³
+
+            weight *= 2;
+
+            var motorMountingPlateChecked = document.getElementById('motorMountingPlate').checked;
+            var addRibsChecked = document.getElementById('addRibs').checked;
+
+            if (addRibsChecked) {
+                var sidePlateWeight = weight * 0.3; // 30% of Side Plate Weight
+                weight += sidePlateWeight;
             }
 
-
-            var weight = volume * 7.85;
-
-            if (document.getElementById('motorMountingPlate').checked) {
-                weight += 30; // Add 30 kg for motor mounting plate
+            if (motorMountingPlateChecked) {
+                weight += 30; // Adding 30 kg for motor mounting plate
             }
 
-            document.getElementById('plateWeightResult').textContent = weight.toFixed(2);
+            document.getElementById('plateWeightResultResult').textContent = weight.toFixed(2);
             calculateTotalWeight();
         }
 
-        document.getElementById('side1').addEventListener('input', calculateSidePlateWeight);
-        document.getElementById('side2').addEventListener('input', calculateSidePlateWeight);
-        document.getElementById('thicknessPlate').addEventListener('input', calculateSidePlateWeight);
-        document.getElementById('addRibs').addEventListener('change', calculateSidePlateWeight);
-        document.getElementById('motorMountingPlate').addEventListener('change', calculateSidePlateWeight);
+
 
 
         function calculateFrpWeight() {
@@ -408,7 +398,8 @@
             document.getElementById('frpWeightResult').textContent = frpWeight.toFixed(2);
             updateTotalWeight();
         }
-        document.getElementById('numberOfHangers').addEventListener('input', calculateFrpWeight);
+
+
 
         function calculatePipeWeight() {
             var outerDiameter = parseFloat(document.getElementById('outerDiameter').value) / 1000; // Convert to meters
@@ -424,10 +415,6 @@
             updateTotalWeight();
             calculateTotalWeights();
         }
-        document.getElementById('numClamps').addEventListener('input', calculateClamfWeight);
-        document.getElementById('outerDiameter').addEventListener('input', calculateClamfWeight);
-        document.getElementById('thickness').addEventListener('input', calculateClamfWeight);
-
 
         function calculateClamfWeight() {
             var numClamps = parseInt(document.getElementById('numClamps').value); // Get the number of clamps
@@ -444,14 +431,47 @@
             calculateTotalWeights(); // Assuming you have an updateTotalWeight function
         }
 
-        // Attach the event listeners
+
+
+
+        function calculateTotalWeight() {
+            var flatWeight = parseFloat(document.getElementById('flatWeightResultResult').textContent);
+            var plateWeight = parseFloat(document.getElementById('plateWeightResultResult').textContent);
+
+            var totalWeight = flatWeight + plateWeight;
+
+            document.getElementById('totalWeightResult').textContent = totalWeight.toFixed(2);
+        }
+        
+
+
+        calculateTotalWeight()
+        calculateFlatTrayWeight();
+        calculateSidePlateWeight();
+
+        document.getElementById('length1').addEventListener('input', calculateFlatTrayWeight);
+        document.getElementById('width1').addEventListener('input', calculateFlatTrayWeight);
+        document.getElementById('height1').addEventListener('input', calculateFlatTrayWeight);
+        document.getElementById('thickness1').addEventListener('input', calculateFlatTrayWeight);
+
+        document.getElementById('side1').addEventListener('input', calculateSidePlateWeight);
+        document.getElementById('side2').addEventListener('input', calculateSidePlateWeight);
+        document.getElementById('thicknessPlate').addEventListener('input', calculateSidePlateWeight);
+        document.getElementById('addRibs').addEventListener('change', calculateSidePlateWeight);
+        document.getElementById('motorMountingPlate').addEventListener('change', calculateSidePlateWeight);
+
+        document.getElementById('numberOfHangers').addEventListener('input', calculateFrpWeight);
 
         document.getElementById('outerDiameter').addEventListener('input', calculatePipeWeight);
         document.getElementById('thickness').addEventListener('input', calculatePipeWeight);
         document.getElementById('lengthPipeDiameter').addEventListener('input', calculatePipeWeight);
         document.getElementById('numClamps').addEventListener('input', calculatePipeWeight);
 
+        document.getElementById('numClamps').addEventListener('input', calculateClamfWeight);
+        document.getElementById('outerDiameter').addEventListener('input', calculateClamfWeight);
+        document.getElementById('thickness').addEventListener('input', calculateClamfWeight);
 
+        document.getElementById('pricePerKg').addEventListener('input', calculateTotalCost);
 
     </script>
 </body>
