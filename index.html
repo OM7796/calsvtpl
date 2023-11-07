@@ -1,527 +1,397 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weight Calculator</title>
     <style>
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+        }
+
+        .calculator-container {
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: #2a557a;
-            padding: 10px;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            top: 0;
-        }
-
-        .title {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        .nav-panel {
-            display: flex;
-            flex-direction: column;
-            width: 20%;
-            background-color: #7dc0cf;
-            color: #fff;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            margin-top: 40px;
-            /* Added margin to start below header */
-            overflow-y: auto;
-            box-sizing: border-box;
-            border-radius: 10px;
-            padding-top: 20px;
-        }
-
-        .toggle-btn {
-            background-color: black;
-            border: 5px;
-            border-radius: 7px;
-            border-color: blueviolet;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 10px;
-            text-align: left;
-            margin: 5px 10px;
-            outline: none;
-            transition: background-color 0.3s;
-        }
-
-        .toggle-btn:hover {
-            background-color: #444;
-        }
-
-        .form-container {
+            max-width: 100%;
+            margin: 0 auto;
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
-            margin-left: 20%;
-            margin-top: 3%;
-            width: 60%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
-        .form-container h3 {
-            margin-top: 0;
+        .image-container {
+            flex-shrink: 0;
+            width: 40%;
+            /* Set the width to 30% of the container */
+            max-width: 60%;
+            /* Make sure it doesn't exceed its natural size */
         }
 
-        .content-container {
-            margin-left: 10%;
-            width: 80%;
-            margin-top: 2%;
-        }
-
-        .content-container>* {
-            margin-bottom: 20px;
-        }
-
-        .form label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form input {
-            width: calc(100% - 12px);
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-
-        #pricePerKg {
-            width: calc(100% - 12px);
-            padding: 8px;
-            margin-bottom: 7px;
-            margin-top: 6px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .tic-checkbox input {
-            margin-right: 2px;
-            align-items: flex-start;
+        .image-container img {
+            max-width: 100%;
+            height: 20%;
+            width: 100%;
+            /* Make the image fill its container */
         }
 
 
 
-        .result {
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 20px;
+        .tab-buttons {
+            flex-shrink: 0;
+            background-color: #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Center the buttons vertically */
         }
 
-        .totalresult {
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 20px;
-            margin-left: 22%;
-        }
-
-        .total-button {
-            font-size: 16px;
+        .tab-button {
             padding: 10px 20px;
+            background-color: #ccc;
             border: none;
-            border-radius: 5px;
-            background-color: #333;
-            color: #fff;
+            color: #000;
+            border-radius: 4px;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-            margin-left: 22%;
-            margin-right: 4%;
+            font-size: 16px;
+            margin: 2px 0;
+            /* Add margin between buttons */
         }
 
-        .calculatebutton {
-            background-color: aqua;
-        }
-
-        .total-button:hover {
-            background-color: #555;
+        .tab-button:not(.active):hover {
+            background-color: #ddd;
+            /* Add this to override the hover style */
         }
 
 
-        @media (max-width: 767px) {
-            .title {
-                font-size: 18px;
-            }
 
-            .toggle-btn {
-                font-size: 14px;
-            }
+        .input-container,
+        .result-container,
+        .image-container {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-            .form-container h3 {
-                font-size: 18px;
-            }
+        .input-container,
+        .result-container {
+            background-color: #f9f9f9;
+        }
 
-            .form label {
-                font-size: 14px;
-            }
+        h2 h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
 
-            .form input {
-                font-size: 14px;
-            }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
 
-            .result,
-            .totalresult {
-                font-size: 14px;
-            }
+        input {
+            width: calc(100% - 8px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-            .total-button {
-                font-size: 14px;
-            }
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result-label {
+            font-weight: bold;
+        }
+
+        .user-values-label {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .image-info {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #777;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <div class="title">Weight Calculator</div>
-    </header>
+    <div class="calculator-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="switchTab('flatTray')">Flat Tray</button>
+            <button class="tab-button" onclick="switchTab('roundTray')">Round Tray</button>
+            <button class="tab-button" onclick="switchTab('hopper')">Hopper</button>
+        </div>
 
-    <div class="content-container">
-        <nav class="nav-panel">
-            <button class="toggle-btn">Flat Tray</button>
-            <button class="toggle-btn">FRP Hanger</button>
-            <button class="toggle-btn">Round Pipe Tray</button>
-        </nav>
+        <div class="input-container" id="flatTrayInput">
+            <h2>Input</h2>
+            <h3>Flat Tray</h3>
+            <label for="length">Length (mm):</label>
+            <input type="number" id="length"><br>
 
-        <div class="content-container">
-            <div class="form-container" id="form1">
-                <h3>Flat Tray</h3>
-                <form id="flatTrayForm" class="form">
-                    <label for="length1">Length (mm):</label>
-                    <input type="number" id="length1" name="length1" required oninput="calculateFlatTrayWeight()"><br>
+            <label for="width">Width (mm):</label>
+            <input type="number" id="width"><br>
 
-                    <label for="width1">Width (mm):</label>
-                    <input type="number" id="width1" name="width1" required oninput="calculateFlatTrayWeight()"><br>
+            <label for="height">Height (mm):</label>
+            <input type="number" id="height"><br>
 
-                    <label for="height1">Height (mm):</label>
-                    <input type="number" id="height1" name="height1" required oninput="calculateFlatTrayWeight()"><br>
+            <label for="thickness">Thickness (mm):</label>
+            <input type="number" id="thickness"><br>
 
-                    <label for="thickness1">Thickness (mm):</label>
-                    <input type="number" id="thickness1" name="thickness1" required
-                        oninput="calculateFlatTrayWeight()"><br>
+            <label for="sidePlateThickness">Side Plate Thickness (mm):</label>
+            <input type="number" id="sidePlateThickness"><br>
 
+            <button onclick="calculateFlatTrayWeight()">Calculate</button>
+        </div>
+        <div class="input-container" id="roundTrayInput" style="display: none;">
+            <h2>Input</h2>
+            <h3>Round Tray</h3>
+            <label for="diameter">Diameter (mm):</label>
+            <input type="number" id="diameter"><br>
 
-                    <label for="sidePlateThickness">Side Plate Thickness (mm):</label>
-                    <input type="number" id="sidePlateThickness" name="sidePlateThickness" required
-                        oninput="calculateFlatTrayWeight()"><br>
+            <label for="lengthRound">Length (mm):</label>
+            <input type="number" id="lengthRound"><br>
 
-                    <label for="pricePerKg">Price per Kg (In Rs.):</label>
-                    <input type="number" id="pricePerKg" oninput="calculateFlatTrayWeight()"><br>
+            <label for="thicknessRound">Thickness (mm):</label>
+            <input type="number" id="thicknessRound"><br>
 
-                    <div class="tic-checkbox">
-                        <input type="checkbox" id="motorMountingPlate" onchange="calculateSidePlateWeight()">
-                        <label for="motorMountingPlate">Motor Mounting Plate (30 Kg weight increase)</label>
-                    </div>
+            <label for="sidePlateThicknessRound">Side Plate Thickness (mm):</label>
+            <input type="number" id="sidePlateThicknessRound"><br>
 
-                    <div class="tic-checkbox">
-                        <input type="checkbox" id="addRibs" onchange="calculateSidePlateWeight()">
-                        <label for="addRibs">Add Ribs (30% of Side Plate Weight)</label>
-                    </div>
-                </form>
-            </div>
-            <div class="form-container" id="form2">
-                <h3>Result Tab</h3>
+            <label for="clamps">Number of Clamps:</label>
+            <input type="number" id="clamps"><br>
 
-                <div class="result">
-                    <p>Flat Tray Weight (kg): <span id="flatWeightResultResult"></span></p>
-                </div>
-
-                <div class="result">
-                    <p>Side Plate Weight (kg): <span id="plateWeightResultResult"></span></p>
-                </div>
-
-                <div class="result">
-                    <p>Total Weight (kg)(Flat Tray & Side Plate): <span id="totalWeightResult"></span></p>
-                    <p>Total Cost: Rs. <span id="totalCostResult"></span></p> <!-- Display total cost -->
-                </div>
-            </div>
-
-            <div class="form-container" id="form3" style="display:none;">
-                <h3>FRP Hanger (Pair)</h3>
-                <form id="frpHangerForm" class="form">
-                    <label for="numberOfHangers">Number of FRP Hangers(Pair) :</label>
-                    <input type="number" id="numberOfHangers" name="numberOfHangers" required><br>
-
-                </form>
-
-                <div class="result">
-                    <p>Weight (kg): <span id="frpWeightResult"></span></p>
-                </div>
-            </div>
-
-            <div class="form-container" id="form4" style="display:none;">
-                <h3>Round Tray</h3> <!-- Changed heading to "Round Tray" -->
-                <form id="roundTrayForm" class="form">
-                    <label for="diameter">Diameter (mm):</label>
-                    <input type="number" id="diameter" name="diameter" required><br>
-
-                    <label for="thickness">Thickness (mm):</label>
-                    <input type="number" id="thickness" name="thickness" required><br>
-
-                    <label for="lengthRound">Length (mm):</label>
-                    <input type="number" id="lengthRound" name="lengthRound" required><br>
-
-                    <label for="numClampsRound">Number of Clamps:</label>
-                    <input type="number" id="numClampsRound" name="numClampsRound" required><br>
-
-                    <label for="RsidePlateThickness">Side Plate Thickness (mm):</label>
-                    <input type="number" id="RsidePlateThickness" name="RsidePlateThickness" required><br>
-
-                    <label for="priceInput">Price per Kg (In Rs.):</label>
-                    <input type="number" id="priceInput" required><br> <!-- Added price input -->
-
-
-                    <div class="tic-checkbox">
-                        <input type="checkbox" id="RmotorMountingPlate" onchange="calculateRoundSidePlateWeight() ">
-                        <label for="RmotorMountingPlate">Motor Mounting Plate (30 Kg weight increase)</label>
-                    </div>
-
-                    <div class="tic-checkbox">
-                        <input type="checkbox" id="RaddRibs" onchange="calculateRoundSidePlateWeight() ">
-                        <label for="RaddRibs">Add Ribs (30% of Side Plate Weight)</label>
-                    </div>
-                </form>
-            </div>
-
-            <div class="form-container" id="form6" style="display:none;">
-                <h3>Result Tab</h3>
-
-                <div class="result">
-                    <p>Round Tray Weight (kg): <span id="roundTrayWeightResult"></span></p>
-                </div>
-
-                <div class="result">
-                    <p>Clamp Weight (kg): <span id="clamfResult"></span></p>
-                </div>
-
-                <div class="result">
-                    <p>Side Plate Weight (kg): <span id="RplateWeightResultResult"></span></p>
-                </div>
-
-                <div class="result">
-                    <p>Round Total Weight (kg): <span id="RtotalWeightResult"></span></p>
-                </div>
-
-                <div class="result">
-                    <p>Round Total Cost (Rs.): <span id="RtotalCostResult"></span></p>
-                </div>
-            </div>
+            <button onclick="calculateRoundTrayWeight()">Calculate</button>
 
         </div>
 
-    </div>
+
+        <div class="input-container" id="hopperInput" style="display: none;">
+            <h2>Input</h2>
+            <h3>Hopper</h3>
+
+            <label for="inletLength">Inlet Length (mm):</label>
+            <input type="number" id="inletLength"><br>
+
+            <label for="inletWidth">Inlet Width (mm):</label>
+            <input type="number" id="inletWidth"><br>
+
+            <label for="outletLength">Outlet Length (mm):</label>
+            <input type="number" id="outletLength"><br>
+
+            <label for="outletWidth">Outlet Width (mm):</label>
+            <input type="number" id="outletWidth"><br>
+
+            <label for="hopperHeight">Hopper Height (mm):</label>
+            <input type="number" id="hopperHeight"><br>
+
+            <button onclick="calculateHopperVolume()">Calculate</button>
+        </div>
+
+        <!-- Result tab for Flat Tray -->
+        <div class="result-container" id="flatTrayResult" style="display: block;">
+            <h2>Flat Tray Result</h2>
+            <div class="result-label" id="flatTrayWeightLabel"></div><br>
+            <div class="result-label" id="sidePlateWeightLabel"></div><br>
+            <div class="result-label" id="mortarPlateRibsWeightLabel"></div><br>
+            <div class="result-label" id="totalWeightLabel"></div>
+        </div>
+
+        <!-- Result tab for Round Tray -->
+        <div class="result-container" id="roundTrayResult" style="display: none;">
+            <h2>Round Tray Result</h2>
+            <div class="result-label" id="roundTrayWeightLabel"></div><br>
+            <div class="result-label" id="roundSidePlateWeightLabel"></div><br>
+            <div class="result-label" id="clampWeightLabel"></div><br>
+            <div class="result-label" id="totalRoundTrayWeightLabel"></div><br>
+        </div>
+
+        <!-- Result tab for Hopper -->
+        <div class="result-container" id="hopperResult" style="display: none;">
+            <h2>Hopper Result</h2>
+            <div class="result-label" id="volumeLabel"></div> <!-- Added ID for displaying hopper volume -->
+        </div>
+
+
+        <div class="image-container" id="trayImageContainer"> <!-- Add an ID for easy manipulation -->
+            <img src="Tray.png" alt="Tray Image">
+        </div>
+
+        <!-- <div class="image-container" id="hopperImageContainer">
+            <img src="hopper.png" alt="Hopper Image">
+        </div> -->
+
     </div>
 
     <script>
-        document.querySelector('.toggle-btn:nth-child(1)').addEventListener('click', function () {
-            document.getElementById('form1').style.display = 'block';
-            document.getElementById('form2').style.display = 'block';
-            document.getElementById('form3').style.display = 'none';
-            document.getElementById('form4').style.display = 'none';
-            document.getElementById('form6').style.display = 'none';
-            document.getElementById('totalWeightForm').style.display = 'block';
-        });
-
-        document.querySelector('.toggle-btn:nth-child(2)').addEventListener('click', function () {
-            document.getElementById('form1').style.display = 'none';
-            document.getElementById('form2').style.display = 'none';
-            document.getElementById('form3').style.display = 'block';
-            document.getElementById('form4').style.display = 'none';
-            document.getElementById('form6').style.display = 'none';
-            document.getElementById('totalWeightForm').style.display = 'none';
-        });
-
-        document.querySelector('.toggle-btn:nth-child(3)').addEventListener('click', function () {
-            document.getElementById('form1').style.display = 'none';
-            document.getElementById('form2').style.display = 'none';
-            document.getElementById('form3').style.display = 'none';
-            document.getElementById('form4').style.display = 'block';
-            document.getElementById('form6').style.display = 'block';
-            document.getElementById('totalWeightForm').style.display = 'none';
-        });
-
+        function switchTab(tabName) {
+            if (tabName === 'flatTray') {
+                document.getElementById('flatTrayInput').style.display = 'block';
+                document.getElementById('roundTrayInput').style.display = 'none';
+                document.getElementById('hopperInput').style.display = 'none';
+                document.getElementById('flatTrayResult').style.display = 'block';
+                document.getElementById('roundTrayResult').style.display = 'none';
+                document.getElementById('hopperResult').style.display = 'none';
+                document.getElementById('trayImageContainer').style.display = 'block';
+                document.getElementById('hopperImageContainer').style.display = 'none';
+            } else if (tabName === 'roundTray') {
+                document.getElementById('flatTrayInput').style.display = 'none';
+                document.getElementById('roundTrayInput').style.display = 'block';
+                document.getElementById('hopperInput').style.display = 'none';
+                document.getElementById('flatTrayResult').style.display = 'none';
+                document.getElementById('roundTrayResult').style.display = 'block';
+                document.getElementById('hopperResult').style.display = 'none';
+                document.getElementById('trayImageContainer').style.display = 'none';
+                document.getElementById('hopperImageContainer').style.display = 'none';
+            } else if (tabName === 'hopper') {
+                document.getElementById('flatTrayInput').style.display = 'none';
+                document.getElementById('roundTrayInput').style.display = 'none';
+                document.getElementById('hopperInput').style.display = 'block';
+                document.getElementById('flatTrayResult').style.display = 'none';
+                document.getElementById('roundTrayResult').style.display = 'none';
+                document.getElementById('hopperResult').style.display = 'block';
+                document.getElementById('trayImageContainer').style.display = 'none';
+                document.getElementById('hopperImageContainer').style.display = 'block';
+            }
+        }
 
 
         function calculateFlatTrayWeight() {
-            var length = parseFloat(document.getElementById('length1').value) / 1000;
-            var width = parseFloat(document.getElementById('width1').value) / 1000;
-            var height = parseFloat(document.getElementById('height1').value) / 1000;
-            var thickness = parseFloat(document.getElementById('thickness1').value);
-            var pricePerKg = parseFloat(document.getElementById('pricePerKg').value);
+            var length = parseFloat(document.getElementById("length").value) / 1000;
+            var width = parseFloat(document.getElementById("width").value) / 1000;
+            var height = parseFloat(document.getElementById("height").value) / 1000;
+            var thickness = parseFloat(document.getElementById("thickness").value);
+            var sidePlateThickness = parseFloat(document.getElementById("sidePlateThickness").value);
 
             var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.85;
             var wt2 = (0.12 * length + 0.06 * width) * thickness * 7.85;
             var flattotalWeight = weight + wt2;
 
-            document.getElementById('flatWeightResultResult').textContent = flattotalWeight.toFixed(2);
+            var flatTrayWeightLabel = document.getElementById("flatTrayWeightLabel");
+            flatTrayWeightLabel.innerHTML = "<div class='result-label'>Flat Tray Weight:</div> " + flattotalWeight.toFixed(2) + " kg";
 
-            var flatWeight = flattotalWeight; // Assuming flattotalWeight is the total flat tray weight
+            // Calculate side plate weight
+            var flatTrayLength = length * 0.8;
+            var triangleHeight = 0.6;
 
-            var sidePlateWeight = parseFloat(document.getElementById('plateWeightResultResult').textContent);
+            var triangleArea = 0.5 * flatTrayLength * triangleHeight;
+            var triangleWeight = 2 * (triangleArea * sidePlateThickness * 7.85);
 
-            var totalWeight = flatWeight + sidePlateWeight;
+            var sidePlateWeightLabel = document.getElementById("sidePlateWeightLabel");
+            sidePlateWeightLabel.innerHTML = "<div class='result-label'>Side Plate Weight:</div> " + triangleWeight.toFixed(2) + " kg";
 
-            document.getElementById('totalWeightResult').textContent = totalWeight.toFixed(2);
+            // Calculate mortar mounting plate and ribs weight
+            var sidePlateWeight = triangleWeight;
+            var ribsWeight = 0.3 * sidePlateWeight;
+            var mortarPlateWeight = 30;
 
-            if (!isNaN(pricePerKg)) {
-                var totalCost = totalWeight * pricePerKg;
-                document.getElementById('totalCostResult').textContent = totalCost.toFixed(2);
-            }
+            var mortarPlateRibsWeight = ribsWeight + mortarPlateWeight;
+
+            var mortarPlateRibsWeightLabel = document.getElementById("mortarPlateRibsWeightLabel");
+            mortarPlateRibsWeightLabel.innerHTML = "<div class='result-label'>Mortar Plate and Ribs Weight:</div> " + mortarPlateRibsWeight.toFixed(2) + " kg";
+
+            // Calculate total weight
+            var totalWeight = flattotalWeight + triangleWeight + mortarPlateRibsWeight;
+
+            var totalWeightLabel = document.getElementById("totalWeightLabel");
+            totalWeightLabel.innerHTML = "<div class='result-label'>Total Weight:</div> " + totalWeight.toFixed(2) + " kg";
+
+            // Update user-entered values in the image (converted to millimeters)
+            document.getElementById("lengthValue").textContent = length.toFixed(2);
+            document.getElementById("widthValue").textContent = width.toFixed(2);
+            document.getElementById("heightValue").textContent = height.toFixed(2);
         }
-
-        function calculateTriangleAreaAndWeight() {
-            var flatTrayLength = parseFloat(document.getElementById('length1').value) * 0.8 / 1000; // Convert to meters (80% of flat tray length)
-            var triangleHeight = 0.6; // Default height in meters
-            var sidePlateThickness = parseFloat(document.getElementById('sidePlateThickness').value); // Convert to meters
-
-            // Calculate triangle area
-            var triangleArea = 0.5 * flatTrayLength * triangleHeight; // (1/2) * base * height
-
-            // Calculate triangle weight
-            var triangleWeight = triangleArea * sidePlateThickness * 7.850; // Area * thickness * density
-
-            // document.getElementById('triangleAreaResult').textContent = triangleArea.toFixed(2);
-            document.getElementById('plateWeightResultResult').textContent = triangleWeight.toFixed(2);
-
-            var sidePlateWeight = parseFloat(document.getElementById('plateWeightResultResult').textContent);
-
-            var flatWeight = flattotalWeight; // Assuming flattotalWeight is the total flat tray weight
-
-            var totalWeight = flatWeight + sidePlateWeight;
-
-            document.getElementById('totalWeightResult').textContent = totalWeight.toFixed(2);
-
-            if (!isNaN(pricePerKg)) {
-                var totalCost = totalWeight * pricePerKg;
-                document.getElementById('totalCostResult').textContent = totalCost.toFixed(2);
-            }
-
-
-
-        }
-
-
-        // Add event listeners for input fields
-        document.getElementById('length1').addEventListener('input', calculateTriangleAreaAndWeight);
-        document.getElementById('sidePlateThickness').addEventListener('input', calculateTriangleAreaAndWeight);
-
-
-
-        function calculateFRPWeight() {
-            var numberOfHangers = parseInt(document.getElementById('numberOfHangers').value);
-            var frpWeight = numberOfHangers * 1300 / 1000; // Convert grams to kilograms
-
-            document.getElementById('frpWeightResult').textContent = frpWeight.toFixed(2);
-        }
-
-        // Add event listener to trigger calculation
-        document.getElementById('numberOfHangers').addEventListener('input', calculateFRPWeight);
-
-
-
-
-
 
         function calculateRoundTrayWeight() {
-            var diameter = parseFloat(document.getElementById('diameter').value) / 1000; // Convert to meters
-            var thickness = parseFloat(document.getElementById('thickness').value) / 1000; // Convert to meters
+            var diameter = parseFloat(document.getElementById('diameter').value);
+            var thickness = parseFloat(document.getElementById('thicknessRound').value);
             var length = parseFloat(document.getElementById('lengthRound').value) / 1000; // Convert to meters
 
-            var innerDiameter = (diameter - thickness);
+            var finalDiameter = (diameter - thickness) * (3.14159265359 / 1000); // Calculate final diameter
 
-            var weight = Math.PI * ((Math.pow(diameter / 2, 2) - Math.pow(innerDiameter / 2 - thickness, 2)) * length * 7850);
+            var weight = finalDiameter * length * thickness * 7.85; // Calculate weight
 
-            document.getElementById('roundTrayWeightResult').textContent = weight.toFixed(2);
-            calculateTotalRoundWeight();
+            var roundTrayWeightLabel = document.getElementById("roundTrayWeightLabel");
+            roundTrayWeightLabel.innerHTML = "<div class='result-label'>Round Tray Weight:</div> " + weight.toFixed(2) + " kg";
+
+            var sidePlateLength = length * 0.8;
+            var triangleHeight = 0.6;
+            var triangleArea = 0.5 * sidePlateLength * triangleHeight;
+            var roundSidePlateThickness = parseFloat(document.getElementById("sidePlateThicknessRound").value);
+            var roundSidePlateWeight = 2 * (triangleArea * roundSidePlateThickness * 7.85);
+
+            var roundSidePlateWeightLabel = document.getElementById("roundSidePlateWeightLabel");
+            roundSidePlateWeightLabel.innerHTML = "<div class='result-label'>Round Side Plate Weight:</div> " + roundSidePlateWeight.toFixed(2) + " kg";
+
+            var diameter = parseFloat(document.getElementById('diameter').value) / 1000;
+            var thickness = parseFloat(document.getElementById('thicknessRound').value);
+            var length = parseFloat(document.getElementById('lengthRound').value) / 1000; // Convert to meters
+            var clamps = parseInt(document.getElementById('clamps').value);
+
+            // Calculate clamp weight
+            var width = diameter * Math.PI;
+            var oneClampWeight = width * 0.1 * thickness * 7.85;
+            var clampWeight = oneClampWeight * clamps;
+            var clampWeightLabel = document.getElementById("clampWeightLabel");
+            clampWeightLabel.innerHTML = "<div class='result-label'>Clamp Weight:</div> " + clampWeight.toFixed(2) + " kg";
+
+            // Calculate total weight
+            var totalRoundTrayWeight = weight + roundSidePlateWeight + clampWeight;
+
+            var totalRoundTrayWeightLabel = document.getElementById("totalRoundTrayWeightLabel");
+            totalRoundTrayWeightLabel.innerHTML = "<div class='result-label'>Total Round Tray Weight:</div> " + totalRoundTrayWeight.toFixed(2) + " kg";
+
+            totalRoundTrayWeightLabel.style.display = 'block';
+
+            var roundTrayResult = document.getElementById("roundTrayResult");
+            roundTrayResult.style.display = 'block';
+
+            var roundSidePlateWeightLabel = document.getElementById("roundSidePlateWeightLabel");
+            roundSidePlateWeightLabel.style.display = 'block';
+
+            var clampWeightLabel = document.getElementById("clampWeightLabel");
+            clampWeightLabel.style.display = 'block';
+
+            var roundTrayWeightLabel = document.getElementById("roundTrayWeightLabel");
+            roundTrayWeightLabel.style.display = 'block';
         }
 
-        document.getElementById('diameter').addEventListener('input', calculateRoundTrayWeight);
-        document.getElementById('thickness').addEventListener('input', calculateRoundTrayWeight);
-        document.getElementById('lengthRound').addEventListener('input', calculateRoundTrayWeight);
+        function calculateHopperVolume() {
+            var inletLength = parseFloat(document.getElementById("inletLength").value);
+            var inletWidth = parseFloat(document.getElementById("inletWidth").value);
+            var outletLength = parseFloat(document.getElementById("outletLength").value);
+            var outletWidth = parseFloat(document.getElementById("outletWidth").value);
+            var hopperHeight = parseFloat(document.getElementById("hopperHeight").value);
 
-        function calculateClamfWeight() {
-            var numClamps = parseInt(document.getElementById('numClampsRound').value); // Get the number of clamps
-            var outerDiameter = parseFloat(document.getElementById('diameter').value) / 1000; // Convert to meters
-            var thickness = parseFloat(document.getElementById('thickness').value) / 1000; // Convert to meters
+            var A = (inletLength * inletWidth) / (1000 * 1000); // Convert to square meters
+            var B = (outletLength * outletWidth) / (1000 * 1000); // Convert to square meters
 
-            var width = outerDiameter * Math.PI; // Calculate width
-            var additionalWeight = (width * 100 * thickness * 7.85); // Calculate half of the additional weight
+            var H = hopperHeight / 1000; // Convert to meters
 
-            var clamfWeight = additionalWeight * numClamps;
+            var volume = (H / 3) * (A + B + Math.sqrt(A * B));
 
-            document.getElementById('clamfResult').textContent = clamfWeight.toFixed(2);
-            updateTotalWeight(); // Assuming you have an updateTotalWeight function
+            var volumeLabel = document.getElementById("volumeLabel");
+            volumeLabel.innerHTML = "<div class='result-label'>Volume of Hopper (m³):</div> " + volume.toFixed(2) + " m³";
         }
-
-        document.getElementById('numClampsRound').addEventListener('input', calculateClamfWeight);
-
-        function calculateRoundSidePlateWeight() {
-            var lengthRound = parseFloat(document.getElementById('lengthRound').value) / 1000; // Convert to meters
-            var thickness = parseFloat(document.getElementById('RsidePlateThickness').value);
-            var base = 0.8 * lengthRound; // 80% of round tray length
-            var height = 0.6; // 600 mm converted to meters
-
-            // Calculate the area of the triangle
-            var area = (0.5 * base * height);
-
-            // Calculate the weight of the side plate
-            var weight = area * thickness * 7.85;
-
-            // Update the result in the Result Tab
-            document.getElementById('RplateWeightResultResult').textContent = weight.toFixed(2);
-            calculateRoundTotalWeight();
-        }
-
-        function calculateRoundTotalWeight() {
-            var roundTrayWeight = parseFloat(document.getElementById('roundTrayWeightResult').textContent);
-            var clamfWeight = parseFloat(document.getElementById('clamfResult').textContent);
-            var sidePlateWeight = parseFloat(document.getElementById('RplateWeightResultResult').textContent);
-
-            var totalWeight = roundTrayWeight + clamfWeight + sidePlateWeight;
-
-            document.getElementById('RtotalWeightResult').textContent = totalWeight.toFixed(2);
-            calculateRoundTotalCost();
-        }
-
-        function calculateRoundTotalCost() {
-            var totalWeight = parseFloat(document.getElementById('RtotalWeightResult').textContent);
-            var pricePerKg = parseFloat(document.getElementById('priceInput').value);
-
-            if (!isNaN(pricePerKg)) {
-                var totalCost = totalWeight * pricePerKg;
-                document.getElementById('RtotalCostResult').textContent = totalCost.toFixed(2);
-            }
-        }
-
-        // Add event listeners to trigger calculations
-        document.getElementById('diameter').addEventListener('input', calculateRoundSidePlateWeight);
-        document.getElementById('RsidePlateThickness').addEventListener('input', calculateRoundSidePlateWeight);
-        document.getElementById('roundTrayWeightResult').addEventListener('input', calculateRoundTotalWeight);
-        document.getElementById('clamfResult').addEventListener('input', calculateRoundTotalWeight);
-        document.getElementById('RplateWeightResultResult').addEventListener('input', calculateRoundTotalWeight);
-        document.getElementById('priceInput').addEventListener('input', calculateRoundTotalCost);
-
 
     </script>
 </body>
