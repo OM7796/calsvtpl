@@ -387,10 +387,11 @@
 
             var H = hopperHeight / 1000; // Convert to meters
 
-            var volume = (H / 3) * (A + B + Math.sqrt(A * B));
+            var volumeCubicMeters = (H / 3) * (A + B + Math.sqrt(A * B));
+            var volumeLiters = volumeCubicMeters * 1000; // Convert to liters
 
             var volumeLabel = document.getElementById("volumeLabel");
-            volumeLabel.innerHTML = "<div class='result-label'>Volume of Hopper (m³):</div> " + volume.toFixed(2) + " m³";
+            volumeLabel.innerHTML = "<div class='result-label'>Volume of Hopper (liters):</div> " + volumeLiters.toFixed(2) + " liters";
         }
 
     </script>
