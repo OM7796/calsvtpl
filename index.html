@@ -1,108 +1,90 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Weight Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tray and Hopper Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f6f6f6;
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
         }
 
-        .calculator-container {
+        .sticky-header {
+            background-color: #333333;
+            padding: 15px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .sticky-header img {
+            height: 50px;
+        }
+
+
+
+        .container {
             display: flex;
-            max-width: 100%;
-            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            /* Added for better spacing */
+            margin: 20px;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            margin: 10px;
+            box-sizing: border-box;
+            /* Added for consistent box sizing */
         }
 
-        .image-container {
-            flex-shrink: 0;
-            width: 40%;
-            /* Set the width to 30% of the container */
-            max-width: 60%;
-            /* Make sure it doesn't exceed its natural size */
-        }
-
-        .image-container img {
-            max-width: 100%;
-            height: 20%;
+        .form-container img {
             width: 100%;
-            /* Make the image fill its container */
+            height: auto;
+            border-radius: 8px;
+            /* Added for rounded corners on images */
+            margin-top: 10px;
+            /* Adjusted margin for spacing */
         }
 
-
-
-        .tab-buttons {
-            flex-shrink: 0;
-            background-color: #ccc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* Center the buttons vertically */
-        }
-
-        .tab-button {
-            padding: 10px 20px;
-            background-color: #ccc;
-            border: none;
-            color: #000;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 2px 0;
-            /* Add margin between buttons */
-        }
-
-        .tab-button:not(.active):hover {
-            background-color: #ddd;
-            /* Add this to override the hover style */
-        }
-
-
-
-        .input-container,
-        .result-container,
-        .image-container {
+        .result-container {
             flex: 1;
             padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px;
             box-sizing: border-box;
+            /* Added for consistent box sizing */
         }
 
-        .input-container,
-        .result-container {
-            background-color: #f9f9f9;
-        }
-
-        h2 h3 {
-            margin-top: 0;
-            font-size: 1.5em;
-            color: #333;
-        }
-
+        /* Added for better spacing and styling of input fields and labels */
         label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
 
         input {
-            width: calc(100% - 8px);
+            width: 100%;
             padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 16px;
             box-sizing: border-box;
         }
 
         button {
-            padding: 10px 20px;
             background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
             border: none;
-            color: #fff;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
@@ -112,168 +94,137 @@
             background-color: #45a049;
         }
 
+        /* Added for better styling of result labels */
         .result-label {
-            font-weight: bold;
+            margin-bottom: 8px;
         }
 
-        .user-values-label {
+        /* Added for styling the hopper reference image */
+        #hopperimg {
+            width: 100%;
+            border-radius: 8px;
             margin-top: 10px;
-            font-size: 0.9em;
-        }
-
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .image-info {
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #777;
         }
     </style>
 </head>
 
 <body>
-    <div class="calculator-container">
-        <div class="tab-buttons">
-            <button class="tab-button active" onclick="switchTab('flatTray')">Flat Tray</button>
-            <button class="tab-button" onclick="switchTab('roundTray')">Round Tray</button>
-            <button class="tab-button" onclick="switchTab('hopper')">Hopper</button>
-        </div>
+    <header class="sticky-header">
+        <img src="Img\Vibracion Logo.png" alt="Logo">
+    </header>
 
-        <div class="input-container" id="flatTrayInput">
-            <h2>Input</h2>
-            <h3>Flat Tray</h3>
+    <div class="container">
+        <!-- Flat Tray Form -->
+        <div id="flatTray" class="form-container">
+            <!-- Input Fields for Flat Tray -->
+            <h2>Flat Tray</h2>
             <label for="length">Length (mm):</label>
-            <input type="number" id="length"><br>
-
+            <input type="number" id="length">
             <label for="width">Width (mm):</label>
-            <input type="number" id="width"><br>
-
+            <input type="number" id="width">
             <label for="height">Height (mm):</label>
-            <input type="number" id="height"><br>
-
+            <input type="number" id="height">
             <label for="thickness">Thickness (mm):</label>
-            <input type="number" id="thickness"><br>
-
+            <input type="number" id="thickness">
             <label for="sidePlateThickness">Side Plate Thickness (mm):</label>
-            <input type="number" id="sidePlateThickness"><br>
-
+            <input type="number" id="sidePlateThickness">
             <button onclick="calculateFlatTrayWeight()">Calculate</button>
+            <!-- Reference Image and Results for Flat Tray -->
+            <img src="Img\flat tray.png" alt="Flat Tray Reference">
+            <div class="result-container">
+                <h2>Flat Tray Result</h2>
+                <div class="result-label" id="flatTrayWeightLabel"></div>
+                <div class="result-label" id="sidePlateWeightLabel"></div>
+                <div class="result-label" id="mortarPlateRibsWeightLabel"></div>
+                <div class="result-label" id="totalWeightLabel"></div>
+            </div>
         </div>
-        <div class="input-container" id="roundTrayInput" style="display: none;">
-            <h2>Input</h2>
-            <h3>Round Tray</h3>
+
+        <!-- Round Tray Form -->
+        <div id="roundTray" class="form-container">
+            <!-- Input Fields for Round Tray -->
+            <h2>Round Tray</h2>
             <label for="diameter">Diameter (mm):</label>
-            <input type="number" id="diameter"><br>
-
+            <input type="number" id="diameter">
             <label for="lengthRound">Length (mm):</label>
-            <input type="number" id="lengthRound"><br>
-
+            <input type="number" id="lengthRound">
             <label for="thicknessRound">Thickness (mm):</label>
-            <input type="number" id="thicknessRound"><br>
-
+            <input type="number" id="thicknessRound">
             <label for="sidePlateThicknessRound">Side Plate Thickness (mm):</label>
-            <input type="number" id="sidePlateThicknessRound"><br>
-
+            <input type="number" id="sidePlateThicknessRound">
             <label for="clamps">Number of Clamps:</label>
-            <input type="number" id="clamps"><br>
-
+            <input type="number" id="clamps">
             <button onclick="calculateRoundTrayWeight()">Calculate</button>
-
+            <!-- Reference Image and Results for Round Tray -->
+            <img src="Img\HopperR.jpg" alt="Round Tray Reference">
+            <div class="result-container">
+                <h2>Round Tray Result</h2>
+                <div class="result-label" id="roundTrayWeightLabel"></div>
+                <div class="result-label" id="roundSidePlateWeightLabel"></div>
+                <div class="result-label" id="clampWeightLabel"></div>
+                <div class="result-label" id="totalRoundTrayWeightLabel"></div>
+            </div>
         </div>
 
+        <!-- Hopper Form -->
+        <div id="hopper" class="form-container">
+            <!-- Input Fields for Hopper -->
+            <h2>Hopper</h2>
+            <label for="length1">Inlet Length 1 (mm):</label>
+            <input type="number" id="length1">
 
-        <div class="input-container" id="hopperInput" style="display: none;">
-            <h2>Input</h2>
-            <h3>Hopper</h3>
+            <label for="width1">Inlet Width 1 (mm):</label>
+            <input type="number" id="width1">
 
-            <label for="inletLength">Inlet Length (mm):</label>
-            <input type="number" id="inletLength"><br>
+            <label for="height1">Inlet Height 1 (mm):</label>
+            <input type="number" id="height1">
 
-            <label for="inletWidth">Inlet Width (mm):</label>
-            <input type="number" id="inletWidth"><br>
+            <label for="length2">Outlet Length 2 (mm):</label>
+            <input type="number" id="length2">
 
-            <label for="outletLength">Outlet Length (mm):</label>
-            <input type="number" id="outletLength"><br>
+            <label for="width2">Outlet Width 2 (mm):</label>
+            <input type="number" id="width2">
 
-            <label for="outletWidth">Outlet Width (mm):</label>
-            <input type="number" id="outletWidth"><br>
+            <label for="height2">Outlet Height 2 (mm):</label>
+            <input type="number" id="height2">
 
-            <label for="hopperHeight">Hopper Height (mm):</label>
-            <input type="number" id="hopperHeight"><br>
+            <label for="height3">Hopper Height 3 (mm):</label>
+            <input type="number" id="height3">
+
+            <label for="density">Density of Material (g/cm³):</label>
+            <input type="number" id="density">
+
+            <label for="sideThickness">Side Thickness (mm):</label>
+            <input type="number" id="sideThickness">
 
             <button onclick="calculateHopperVolume()">Calculate</button>
+            <!-- Reference Image and Results for Hopper -->
+            <img src="Img\HopperR.jpg" alt="Hopper Reference" id="hopperimg">
+            <div class="result-container">
+                <h2>Hopper Result</h2>
+                <div id="outerVolumeLabel" class="result-label"></div>
+                <div id="innerVolumeLabel" class="result-label"></div>
+                <div id="differenceVolumeLabel" class="result-label"></div>
+                <div id="weightLabel" class="result-label"></div>
+            </div>
         </div>
 
-        <!-- Result tab for Flat Tray -->
-        <div class="result-container" id="flatTrayResult" style="display: block;">
-            <h2>Flat Tray Result</h2>
-            <div class="result-label" id="flatTrayWeightLabel"></div><br>
-            <div class="result-label" id="sidePlateWeightLabel"></div><br>
-            <div class="result-label" id="mortarPlateRibsWeightLabel"></div><br>
-            <div class="result-label" id="totalWeightLabel"></div>
+        <!-- FRP Form -->
+        <div id="frp" class="form-container">
+            <!-- Input Fields for FRP -->
+            <h2>FRP</h2>
+            <label for="numberOfHangers">Number of FRP Hangers (Pair):</label>
+            <input type="number" id="numberOfHangers" name="numberOfHangers" required>
+            <button onclick="calculateFRPWeight()">Calculate</button>
+            <!-- Reference Image and Results for FRP -->
+            <img src="Img\HopperR.jpg" alt="FRP Reference">
+            <div class="result-container">
+                <h2>FRP Result</h2>
+                <div class="result-label" id="frpWeightResult"></div>
+            </div>
         </div>
-
-        <!-- Result tab for Round Tray -->
-        <div class="result-container" id="roundTrayResult" style="display: none;">
-            <h2>Round Tray Result</h2>
-            <div class="result-label" id="roundTrayWeightLabel"></div><br>
-            <div class="result-label" id="roundSidePlateWeightLabel"></div><br>
-            <div class="result-label" id="clampWeightLabel"></div><br>
-            <div class="result-label" id="totalRoundTrayWeightLabel"></div><br>
-        </div>
-
-        <!-- Result tab for Hopper -->
-        <div class="result-container" id="hopperResult" style="display: none;">
-            <h2>Hopper Result</h2>
-            <div class="result-label" id="volumeLabel"></div> <!-- Added ID for displaying hopper volume -->
-        </div>
-
-
-        <div class="image-container" id="trayImageContainer"> <!-- Add an ID for easy manipulation -->
-            <img src="Tray.png" alt="Tray Image">
-        </div>
-
-        <!-- <div class="image-container" id="hopperImageContainer">
-            <img src="hopper.png" alt="Hopper Image">
-        </div> -->
-
     </div>
-
     <script>
-        function switchTab(tabName) {
-            if (tabName === 'flatTray') {
-                document.getElementById('flatTrayInput').style.display = 'block';
-                document.getElementById('roundTrayInput').style.display = 'none';
-                document.getElementById('hopperInput').style.display = 'none';
-                document.getElementById('flatTrayResult').style.display = 'block';
-                document.getElementById('roundTrayResult').style.display = 'none';
-                document.getElementById('hopperResult').style.display = 'none';
-                document.getElementById('trayImageContainer').style.display = 'block';
-                document.getElementById('hopperImageContainer').style.display = 'none';
-            } else if (tabName === 'roundTray') {
-                document.getElementById('flatTrayInput').style.display = 'none';
-                document.getElementById('roundTrayInput').style.display = 'block';
-                document.getElementById('hopperInput').style.display = 'none';
-                document.getElementById('flatTrayResult').style.display = 'none';
-                document.getElementById('roundTrayResult').style.display = 'block';
-                document.getElementById('hopperResult').style.display = 'none';
-                document.getElementById('trayImageContainer').style.display = 'none';
-                document.getElementById('hopperImageContainer').style.display = 'none';
-            } else if (tabName === 'hopper') {
-                document.getElementById('flatTrayInput').style.display = 'none';
-                document.getElementById('roundTrayInput').style.display = 'none';
-                document.getElementById('hopperInput').style.display = 'block';
-                document.getElementById('flatTrayResult').style.display = 'none';
-                document.getElementById('roundTrayResult').style.display = 'none';
-                document.getElementById('hopperResult').style.display = 'block';
-                document.getElementById('trayImageContainer').style.display = 'none';
-                document.getElementById('hopperImageContainer').style.display = 'block';
-            }
-        }
-
 
         function calculateFlatTrayWeight() {
             var length = parseFloat(document.getElementById("length").value) / 1000;
@@ -316,6 +267,9 @@
             totalWeightLabel.innerHTML = "<div class='result-label'>Total Weight:</div> " + totalWeight.toFixed(2) + " kg";
 
             // Update user-entered values in the image (converted to millimeters)
+            document.getElementById("lengthValue").textContent = length.toFixed(2);
+            document.getElementById("widthValue").textContent = width.toFixed(2);
+            document.getElementById("heightValue").textContent = height.toFixed(2);
             document.getElementById("lengthValue").textContent = length.toFixed(2);
             document.getElementById("widthValue").textContent = width.toFixed(2);
             document.getElementById("heightValue").textContent = height.toFixed(2);
@@ -375,24 +329,89 @@
             roundTrayWeightLabel.style.display = 'block';
         }
 
+
         function calculateHopperVolume() {
-            var inletLength = parseFloat(document.getElementById("inletLength").value);
-            var inletWidth = parseFloat(document.getElementById("inletWidth").value);
-            var outletLength = parseFloat(document.getElementById("outletLength").value);
-            var outletWidth = parseFloat(document.getElementById("outletWidth").value);
-            var hopperHeight = parseFloat(document.getElementById("hopperHeight").value);
+            var length1 = parseFloat(document.getElementById("length1").value);
+            var width1 = parseFloat(document.getElementById("width1").value);
+            var height1 = parseFloat(document.getElementById("height1").value);
+            var length2 = parseFloat(document.getElementById("length2").value);
+            var width2 = parseFloat(document.getElementById("width2").value);
+            var height2 = parseFloat(document.getElementById("height2").value);
+            var height3 = parseFloat(document.getElementById("height3").value);
+            var density = parseFloat(document.getElementById("density").value);
+            var sideThickness = parseFloat(document.getElementById("sideThickness").value);
 
-            var A = (inletLength * inletWidth) / (1000 * 1000); // Convert to square meters
-            var B = (outletLength * outletWidth) / (1000 * 1000); // Convert to square meters
+            // Calculate inner volume1
+            var innerVolume1CubicMM = length1 * width1 * height1;
+            var innerVolume1Liters = innerVolume1CubicMM * 1e-6;
 
-            var H = hopperHeight / 1000; // Convert to meters
+            // Calculate inner volume2
+            var innerVolume2CubicMM = length2 * width2 * height2;
+            var innerVolume2Liters = innerVolume2CubicMM * 1e-6;
 
-            var volumeCubicMeters = (H / 3) * (A + B + Math.sqrt(A * B));
-            var volumeLiters = volumeCubicMeters * 1000; // Convert to liters
+            // Calculate inner volume3
+            var innerVolume3CubicMM = (length1 * width1 * height3) - width1 * (length1 - length2 / 2) * height3;
+            var innerVolume3Liters = innerVolume3CubicMM * 1e-6;
 
-            var volumeLabel = document.getElementById("volumeLabel");
-            volumeLabel.innerHTML = "<div class='result-label'>Volume of Hopper (liters):</div> " + volumeLiters.toFixed(2) + " liters";
+            // Calculate total inner volume
+            var totalInnerVolumeLiters = innerVolume1Liters + innerVolume2Liters + innerVolume3Liters;
+
+            var outerlength1 = length1 + 2 * sideThickness;
+            var outerwidth1 = width1 + 2 * sideThickness;
+
+            var outerlength2 = length2 + 2 * sideThickness;
+            var outerwidth2 = width2 + 2 * sideThickness;
+
+
+            // Calculate outer volume1
+            var outerVolume1CubicMM = outerlength1 * outerwidth1 * height1;
+            var outerVolume1Liters = outerVolume1CubicMM * 1e-6;
+
+            // Calculate outer volume2
+            var outerVolume2CubicMM = outerlength2 * outerwidth2 * height2;
+            var outerVolume2Liters = outerVolume2CubicMM * 1e-6;
+
+            // Calculate outer volume3
+            var outerVolume3CubicMM = (outerlength1 * outerwidth1 * height3) - outerwidth1 * (outerlength1 - outerlength2 / 2) * height3;
+            var outerVolume3Liters = outerVolume3CubicMM * 1e-6;
+
+
+            // Calculate total outer volume
+            var totalouterVolumeLiters = outerVolume1Liters + outerVolume2Liters + outerVolume3Liters;
+
+            // Calculate difference in volumes
+            var differenceVolumeLiters = totalouterVolumeLiters - totalInnerVolumeLiters;
+
+            // Calculate weight in kilograms
+            var hopperWeightKg = differenceVolumeLiters * density * sideThickness;
+
+
+
+            // Display the results
+            var outerVolumeLabel = document.getElementById("outerVolumeLabel");
+            outerVolumeLabel.innerHTML = "<div class='result-label'>Outer Volume:</div> " + totalouterVolumeLiters.toFixed(2) + " liters";
+
+            var innerVolumeLabel = document.getElementById("innerVolumeLabel");
+            innerVolumeLabel.innerHTML = "<div class='result-label'>Inner Volume:</div> " + totalInnerVolumeLiters.toFixed(2) + " liters";
+
+            var differenceVolumeLabel = document.getElementById("differenceVolumeLabel");
+            differenceVolumeLabel.innerHTML = "<div class='result-label'>Difference in Volumes:</div> " + differenceVolumeLiters.toFixed(2) + " liters";
+
+            var weightLabel = document.getElementById("weightLabel");
+            weightLabel.innerHTML = "<div class='result-label'>Weight of Hopper (kg):</div> " + hopperWeightKg.toFixed(2) + " kg";
+
+            // Display the result container
+            document.getElementById("hopperResult").style.display = 'block';
         }
+
+
+        function calculateFRPWeight() {
+            var numberOfHangers = parseInt(document.getElementById('numberOfHangers').value);
+            var frpWeight = numberOfHangers * 1300 / 1000; // Convert grams to kilograms
+
+            document.getElementById('frpWeightResult').textContent = frpWeight.toFixed(2);
+        }
+
 
     </script>
 </body>
