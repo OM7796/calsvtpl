@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../../3D Objects/SVTPLProject/Img"
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501
+	}
+}
