@@ -41,7 +41,7 @@
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(44, 37, 37, 0.1);
             margin: 10px;
             box-sizing: border-box;
             /* Added for consistent box sizing */
@@ -78,6 +78,7 @@
             padding: 8px;
             margin-bottom: 16px;
             box-sizing: border-box;
+            border-radius: 6px;
         }
 
         button {
@@ -130,7 +131,7 @@
             <input type="number" id="sidePlateThickness">
             <button onclick="calculateFlatTrayWeight()">Calculate</button>
             <!-- Reference Image and Results for Flat Tray -->
-            <img src="Img\flat tray.png" alt="Flat Tray Reference">
+            <img src="Img\tray .jpg" alt="Flat Tray Reference">
             <div class="result-container">
                 <h2>Flat Tray Result</h2>
                 <div class="result-label" id="flatTrayWeightLabel"></div>
@@ -155,8 +156,8 @@
             <label for="clamps">Number of Clamps:</label>
             <input type="number" id="clamps">
             <button onclick="calculateRoundTrayWeight()">Calculate</button>
-            <!-- Reference Image and Results for Round Tray -->
-            <img src="Img\HopperR.jpg" alt="Round Tray Reference">
+            <!-- Reference Image and Results for Round Tray
+            <img src="Img\HopperR.jpg" alt="Round Tray Reference"> -->
             <div class="result-container">
                 <h2>Round Tray Result</h2>
                 <div class="result-label" id="roundTrayWeightLabel"></div>
@@ -206,6 +207,8 @@
                 <div id="innerVolumeLabel" class="result-label"></div>
                 <div id="differenceVolumeLabel" class="result-label"></div>
                 <div id="weightLabel" class="result-label"></div>
+                <div id="frameLabel" class="result-label"></div>
+                <div id="framelegsLabel" class="result-label"></div>
             </div>
         </div>
 
@@ -216,11 +219,11 @@
             <label for="numberOfHangers">Number of FRP Hangers (Pair):</label>
             <input type="number" id="numberOfHangers" name="numberOfHangers" required>
             <button onclick="calculateFRPWeight()">Calculate</button>
-            <!-- Reference Image and Results for FRP -->
-            <img src="Img\HopperR.jpg" alt="FRP Reference">
+            <!-- Reference Image and Results for FRP
+            <img src="Img\HopperR.jpg" alt="FRP Reference"> -->
             <div class="result-container">
                 <h2>FRP Result</h2>
-                <div class="result-label" id="frpWeightResult"></div>
+                <div id="frpWeightLebel" class="result-label"></div>
             </div>
         </div>
     </div>
@@ -282,7 +285,14 @@
 
             var finalDiameter = (diameter - thickness) * (3.14159265359 / 1000); // Calculate final diameter
 
-            var weight = finalDiameter * length * thickness * 7.85; // Calculate weight
+            var weight1 = finalDiameter * length * thickness * 7.85; // Calculate weight
+            var weight2 = finalDiameter * 0.25 * thickness * 7.85; // Calculate weight
+            var weight3 = finalDiameter * 0.2 * thickness * 7.85;
+            // var weight4 = (diameter+50 )-thickness * length *thickness*7.85;
+
+            var weight = weight1 + weight2 + weight3;
+
+            var weight4 = (diameter + 50) - thickness * length * thickness * 7.850;
 
             var roundTrayWeightLabel = document.getElementById("roundTrayWeightLabel");
             roundTrayWeightLabel.innerHTML = "<div class='result-label'>Round Tray Weight:</div> " + weight.toFixed(2) + " kg";
@@ -356,11 +366,11 @@
             // Calculate total inner volume
             var totalInnerVolumeLiters = innerVolume1Liters + innerVolume2Liters + innerVolume3Liters;
 
-            var outerlength1 = length1 + 2 * sideThickness;
-            var outerwidth1 = width1 + 2 * sideThickness;
+            var outerlength1 = length1 + 2 + sideThickness;
+            var outerwidth1 = width1 + 2 + sideThickness;
 
-            var outerlength2 = length2 + 2 * sideThickness;
-            var outerwidth2 = width2 + 2 * sideThickness;
+            var outerlength2 = length2 + 2 + sideThickness;
+            var outerwidth2 = width2 + 2 + sideThickness;
 
 
             // Calculate outer volume1
@@ -375,7 +385,6 @@
             var outerVolume3CubicMM = (outerlength1 * outerwidth1 * height3) - outerwidth1 * (outerlength1 - outerlength2 / 2) * height3;
             var outerVolume3Liters = outerVolume3CubicMM * 1e-6;
 
-
             // Calculate total outer volume
             var totalouterVolumeLiters = outerVolume1Liters + outerVolume2Liters + outerVolume3Liters;
 
@@ -383,8 +392,42 @@
             var differenceVolumeLiters = totalouterVolumeLiters - totalInnerVolumeLiters;
 
             // Calculate weight in kilograms
-            var hopperWeightKg = differenceVolumeLiters * density * sideThickness;
+            var hopperWeightKg = differenceVolumeLiters * density;
 
+            // to calculate the frame length we add +100 50 50 both side we take it as height 
+            var outerframelength = length1 + 100;
+            var outerframewidth = width1 + 100;
+            var outerframefinallength = (outerframelength + outerframewidth) * 2;
+
+            //    var  innerframelength = (length1 + 100)-3;
+            //    var  innerframewidth = (width1 + 100)-3;
+            //    var  innerframefinallength = innerframelength + innerframewidth;
+
+            // now we are calculating the inner valume by sub thickness 
+            var innerframeCubicMM = (47 * 47 * outerframefinallength);
+            var innerframeliter = innerframeCubicMM * 1e-6
+            // now we are calculating the outer valume by default length and width
+            var outerframeCubicMM = (50 * 50 * outerframefinallength);
+            var outerframeliter = outerframeCubicMM * 1e-6
+
+            // now we are sub outer - inner valume 
+            var difference = outerframeliter - innerframeliter;
+
+            // now we are calulating the wt 
+            var framewt = difference * 7.85;
+
+            // now we are calculating the frame legs valume inner
+            var innerframelegsCubicMM = (47 * 47 * 4000);
+            var innerframelegsliter = innerframelegsCubicMM * 1e-6
+            //outer
+            var outerframelegsCubicMM = (50 * 50 * 4000);
+            var outerframelegsliter = outerframelegsCubicMM * 1e-6
+
+            // calculating the valume of steel outer - inner
+            var legsdifference = outerframelegsliter - innerframelegsliter;
+
+            // calculating wt of legs
+            var framelegswt = legsdifference * 8;
 
 
             // Display the results
@@ -400,6 +443,13 @@
             var weightLabel = document.getElementById("weightLabel");
             weightLabel.innerHTML = "<div class='result-label'>Weight of Hopper (kg):</div> " + hopperWeightKg.toFixed(2) + " kg";
 
+            var frameLabel = document.getElementById("frameLabel");
+            frameLabel.innerHTML = "<div class='result-label'>Weight of Frame (kg):</div> " + framewt.toFixed(2) + " kg";
+
+            var framelegsLabel = document.getElementById("framelegsLabel");
+            framelegsLabel.innerHTML = "<div class='result-label'>Weight of Frame Legs (kg):</div> " + framelegswt.toFixed(2) + " kg";
+
+
             // Display the result container
             document.getElementById("hopperResult").style.display = 'block';
         }
@@ -409,9 +459,11 @@
             var numberOfHangers = parseInt(document.getElementById('numberOfHangers').value);
             var frpWeight = numberOfHangers * 1300 / 1000; // Convert grams to kilograms
 
-            document.getElementById('frpWeightResult').textContent = frpWeight.toFixed(2);
-        }
+            var frpWeightLebel = document.getElementById("frpWeightLebel");
+            frpWeightLebel.innerHTML = "<div class='result-label'>Weight of FRP (kg):</div> " + frpWeight.toFixed(2) + " kg";
 
+            document.getElementById('frpResult').style.display = 'block';
+        }
 
     </script>
 </body>
