@@ -394,40 +394,7 @@
             // Calculate weight in kilograms
             var hopperWeightKg = differenceVolumeLiters * density;
 
-            // to calculate the frame length we add +100 50 50 both side we take it as height 
-            var outerframelength = length1 + 100;
-            var outerframewidth = width1 + 100;
-            var outerframefinallength = (outerframelength + outerframewidth) * 2;
-
-            //    var  innerframelength = (length1 + 100)-3;
-            //    var  innerframewidth = (width1 + 100)-3;
-            //    var  innerframefinallength = innerframelength + innerframewidth;
-
-            // now we are calculating the inner valume by sub thickness 
-            var innerframeCubicMM = (47 * 47 * outerframefinallength);
-            var innerframeliter = innerframeCubicMM * 1e-6
-            // now we are calculating the outer valume by default length and width
-            var outerframeCubicMM = (50 * 50 * outerframefinallength);
-            var outerframeliter = outerframeCubicMM * 1e-6
-
-            // now we are sub outer - inner valume 
-            var difference = outerframeliter - innerframeliter;
-
-            // now we are calulating the wt 
-            var framewt = difference * 7.85;
-
-            // now we are calculating the frame legs valume inner
-            var innerframelegsCubicMM = (47 * 47 * 4000);
-            var innerframelegsliter = innerframelegsCubicMM * 1e-6
-            //outer
-            var outerframelegsCubicMM = (50 * 50 * 4000);
-            var outerframelegsliter = outerframelegsCubicMM * 1e-6
-
-            // calculating the valume of steel outer - inner
-            var legsdifference = outerframelegsliter - innerframelegsliter;
-
-            // calculating wt of legs
-            var framelegswt = legsdifference * 8;
+            var frame = [((length1 + 100) * 4) + ((width1 + 100) * 4) + (4000)] * 0.0042452631578147;
 
 
             // Display the results
@@ -444,16 +411,14 @@
             weightLabel.innerHTML = "<div class='result-label'>Weight of Hopper (kg):</div> " + hopperWeightKg.toFixed(2) + " kg";
 
             var frameLabel = document.getElementById("frameLabel");
-            frameLabel.innerHTML = "<div class='result-label'>Weight of Frame (kg):</div> " + framewt.toFixed(2) + " kg";
+            frameLabel.innerHTML = "<div class='result-label'>Weight of Frame (kg):</div> " + frame.toFixed(2) + " kg";
 
             var framelegsLabel = document.getElementById("framelegsLabel");
-            framelegsLabel.innerHTML = "<div class='result-label'>Weight of Frame Legs (kg):</div> " + framelegswt.toFixed(2) + " kg";
-
+            framelegsLabel.innerHTML = "<div class='result-label'>Weight of Frame Legs (kg):</div> " + frame.toFixed(2) + " kg";
 
             // Display the result container
             document.getElementById("hopperResult").style.display = 'block';
         }
-
 
         function calculateFRPWeight() {
             var numberOfHangers = parseInt(document.getElementById('numberOfHangers').value);
