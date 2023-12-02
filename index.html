@@ -171,31 +171,31 @@
         <div id="hopper" class="form-container">
             <!-- Input Fields for Hopper -->
             <h2>Hopper</h2>
-            <label for="length1">Inlet Length 1 (mm):</label>
+            <label for="length1">Inlet Length (C) (mm):</label>
             <input type="number" id="length1">
 
-            <label for="width1">Inlet Width 1 (mm):</label>
+            <label for="width1">Inlet Width (D) (mm):</label>
             <input type="number" id="width1">
 
-            <label for="height1">Inlet Height 1 (mm):</label>
+            <label for="height1">Inlet Height (H2) (mm):</label>
             <input type="number" id="height1">
 
-            <label for="length2">Outlet Length 2 (mm):</label>
+            <label for="length2">Outlet Length (A) (mm):</label>
             <input type="number" id="length2">
 
-            <label for="width2">Outlet Width 2 (mm):</label>
+            <label for="width2">Outlet Width (B) (mm):</label>
             <input type="number" id="width2">
 
-            <label for="height2">Outlet Height 2 (mm):</label>
+            <label for="height2">Outlet Height (mm):</label>
             <input type="number" id="height2">
 
-            <label for="height3">Hopper Height 3 (mm):</label>
-            <input type="number" id="height3">
+            <!-- <label for="height3">Hopper Height 3 (mm):</label>
+            <input type="number" id="height3"> -->
 
             <label for="density">Density of Material (g/cm³):</label>
             <input type="number" id="density">
 
-            <label for="sideThickness">Side Thickness (mm):</label>
+            <label for="sideThickness">Thickness (mm):</label>
             <input type="number" id="sideThickness">
 
             <button onclick="calculateHopperVolume()">Calculate</button>
@@ -203,12 +203,13 @@
             <img src="Img\HopperR.jpg" alt="Hopper Reference" id="hopperimg">
             <div class="result-container">
                 <h2>Hopper Result</h2>
-                <div id="outerVolumeLabel" class="result-label"></div>
+                <div id="heightofhopperLabel" class="result-label"></div>
+                <!-- <div id="outerVolumeLabel" class="result-label"></div> -->
                 <div id="innerVolumeLabel" class="result-label"></div>
-                <div id="differenceVolumeLabel" class="result-label"></div>
+                <!-- <div id="differenceVolumeLabel" class="result-label"></div> -->
                 <div id="weightLabel" class="result-label"></div>
                 <div id="frameLabel" class="result-label"></div>
-                <div id="framelegsLabel" class="result-label"></div>
+
             </div>
         </div>
 
@@ -347,9 +348,21 @@
             var length2 = parseFloat(document.getElementById("length2").value);
             var width2 = parseFloat(document.getElementById("width2").value);
             var height2 = parseFloat(document.getElementById("height2").value);
-            var height3 = parseFloat(document.getElementById("height3").value);
+            // var height3 = parseFloat(document.getElementById("height3").value);
             var density = parseFloat(document.getElementById("density").value);
             var sideThickness = parseFloat(document.getElementById("sideThickness").value);
+
+
+            var baseLength = (length1 - length2) / 2;
+
+            // Given angle in degrees
+            var angle60Degrees = 60;
+
+            // Convert angle to radians
+            var angle60Radians = (angle60Degrees * Math.PI) / 180;
+
+            // Calculate the height using the tangent of the angle
+            var height3 = baseLength * Math.tan(angle60Radians);
 
             // Calculate inner volume1
             var innerVolume1CubicMM = length1 * width1 * height1;
@@ -396,29 +409,29 @@
 
             var frame = [((length1 + 100) * 4) + ((width1 + 100) * 4) + (4000)] * 0.0042452631578147;
 
-
-            // Display the results
-            var outerVolumeLabel = document.getElementById("outerVolumeLabel");
-            outerVolumeLabel.innerHTML = "<div class='result-label'>Outer Volume:</div> " + totalouterVolumeLiters.toFixed(2) + " liters";
+            // // Display the results
+            // var outerVolumeLabel = document.getElementById("outerVolumeLabel");
+            // outerVolumeLabel.innerHTML = "<div class='result-label'>Outer Volume:</div> " + totalouterVolumeLiters.toFixed(2) + " liters";
 
             var innerVolumeLabel = document.getElementById("innerVolumeLabel");
             innerVolumeLabel.innerHTML = "<div class='result-label'>Inner Volume:</div> " + totalInnerVolumeLiters.toFixed(2) + " liters";
 
-            var differenceVolumeLabel = document.getElementById("differenceVolumeLabel");
-            differenceVolumeLabel.innerHTML = "<div class='result-label'>Difference in Volumes:</div> " + differenceVolumeLiters.toFixed(2) + " liters";
+            // var differenceVolumeLabel = document.getElementById("differenceVolumeLabel");
+            // differenceVolumeLabel.innerHTML = "<div class='result-label'>Difference in Volumes:</div> " + differenceVolumeLiters.toFixed(2) + " liters";
 
             var weightLabel = document.getElementById("weightLabel");
             weightLabel.innerHTML = "<div class='result-label'>Weight of Hopper (kg):</div> " + hopperWeightKg.toFixed(2) + " kg";
 
             var frameLabel = document.getElementById("frameLabel");
-            frameLabel.innerHTML = "<div class='result-label'>Weight of Frame (kg):</div> " + frame.toFixed(2) + " kg";
+            frameLabel.innerHTML = "<div class='result-label'>Weight of Stand (kg):</div> " + frame.toFixed(2) + " kg";
 
-            var framelegsLabel = document.getElementById("framelegsLabel");
-            framelegsLabel.innerHTML = "<div class='result-label'>Weight of Frame Legs (kg):</div> " + frame.toFixed(2) + " kg";
+            var heightofhopperLabel = document.getElementById("heightofhopperLabel");
+            heightofhopperLabel.innerHTML = "<div class='result-label'>Slop of Height (H1) (mm):</div> " + height3.toFixed(2) + " mm";
 
             // Display the result container
             document.getElementById("hopperResult").style.display = 'block';
         }
+
 
         function calculateFRPWeight() {
             var numberOfHangers = parseInt(document.getElementById('numberOfHangers').value);
