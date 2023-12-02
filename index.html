@@ -192,8 +192,8 @@
             <!-- <label for="height3">Hopper Height 3 (mm):</label>
             <input type="number" id="height3"> -->
 
-            <label for="density">Density of Material (g/cm³):</label>
-            <input type="number" id="density">
+            <!-- <label for="density">Density (g/cm³):</label>
+            <input type="number" id="density"> -->
 
             <label for="sideThickness">Thickness (mm):</label>
             <input type="number" id="sideThickness">
@@ -349,9 +349,9 @@
             var width2 = parseFloat(document.getElementById("width2").value);
             var height2 = parseFloat(document.getElementById("height2").value);
             // var height3 = parseFloat(document.getElementById("height3").value);
-            var density = parseFloat(document.getElementById("density").value);
+            // var density = parseFloat(document.getElementById("density").value);
             var sideThickness = parseFloat(document.getElementById("sideThickness").value);
-
+            var density = 7.850;
 
             var baseLength = (length1 - length2) / 2;
 
@@ -378,6 +378,8 @@
 
             // Calculate total inner volume
             var totalInnerVolumeLiters = innerVolume1Liters + innerVolume2Liters + innerVolume3Liters;
+
+            var totalvalumeLiters = innerVolume1Liters + innerVolume3Liters;
 
             var outerlength1 = length1 + 2 + sideThickness;
             var outerwidth1 = width1 + 2 + sideThickness;
@@ -414,7 +416,7 @@
             // outerVolumeLabel.innerHTML = "<div class='result-label'>Outer Volume:</div> " + totalouterVolumeLiters.toFixed(2) + " liters";
 
             var innerVolumeLabel = document.getElementById("innerVolumeLabel");
-            innerVolumeLabel.innerHTML = "<div class='result-label'>Inner Volume:</div> " + totalInnerVolumeLiters.toFixed(2) + " liters";
+            innerVolumeLabel.innerHTML = "<div class='result-label'>Inner Volume:</div> " + totalvalumeLiters.toFixed(2) + " liters";
 
             // var differenceVolumeLabel = document.getElementById("differenceVolumeLabel");
             // differenceVolumeLabel.innerHTML = "<div class='result-label'>Difference in Volumes:</div> " + differenceVolumeLiters.toFixed(2) + " liters";
