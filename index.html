@@ -131,7 +131,7 @@
             <input type="number" id="sidePlateThickness">
             <button onclick="calculateFlatTrayWeight()">Calculate</button>
             <!-- Reference Image and Results for Flat Tray -->
-            <img src="Img\tray .jpg" alt="Flat Tray Reference">
+            <img src="Img\Length.png" alt="Flat Tray Reference">
             <div class="result-container">
                 <h2>Flat Tray Result</h2>
                 <div class="result-label" id="flatTrayWeightLabel"></div>
@@ -200,7 +200,7 @@
 
             <button onclick="calculateHopperVolume()">Calculate</button>
             <!-- Reference Image and Results for Hopper -->
-            <img src="Img\HopperR.jpg" alt="Hopper Reference" id="hopperimg">
+            <img src="Img\hopper.png" alt="Hopper Reference" id="hopperimg">
             <div class="result-container">
                 <h2>Hopper Result</h2>
                 <div id="heightofhopperLabel" class="result-label"></div>
@@ -238,29 +238,29 @@
             var sidePlateThickness = parseFloat(document.getElementById("sidePlateThickness").value);
 
             var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.85;
-            var wt2 = (0.12 * length + 0.06 * width) * thickness * 7.85;
+            var wt2 = (0.14 * length + 0.07 * width) * thickness * 7.85;
             var flattotalWeight = weight + wt2;
 
             var flatTrayWeightLabel = document.getElementById("flatTrayWeightLabel");
             flatTrayWeightLabel.innerHTML = "<div class='result-label'>Flat Tray Weight:</div> " + flattotalWeight.toFixed(2) + " kg";
 
             // Calculate side plate weight
-            var flatTrayLength = length * 0.8;
-            var triangleHeight = 0.6;
+            var flatTrayLength = length * 0.92;
+            var triangleHeight = 0.4;
 
             var triangleArea = 0.5 * flatTrayLength * triangleHeight;
             var triangleWeight = 2 * (triangleArea * sidePlateThickness * 7.85);
+            var platerect = 2 * (flatTrayLength * 0.2 * sidePlateThickness * 7.850);
+            var totalside = platerect + triangleWeight;
 
             var sidePlateWeightLabel = document.getElementById("sidePlateWeightLabel");
-            sidePlateWeightLabel.innerHTML = "<div class='result-label'>Side Plate Weight:</div> " + triangleWeight.toFixed(2) + " kg";
+            sidePlateWeightLabel.innerHTML = "<div class='result-label'>Side Plate Weight:</div> " + totalside.toFixed(2) + " kg";
 
             // Calculate mortar mounting plate and ribs weight
-            var sidePlateWeight = triangleWeight;
-            var ribsWeight = 0.3 * sidePlateWeight;
+            var sidePlateWeight = totalside;
+            var ribsWeight = 0.8 * sidePlateWeight;
             var mortarPlateWeight = 30;
-
             var mortarPlateRibsWeight = ribsWeight + mortarPlateWeight;
-
             var mortarPlateRibsWeightLabel = document.getElementById("mortarPlateRibsWeightLabel");
             mortarPlateRibsWeightLabel.innerHTML = "<div class='result-label'>Mortar Plate and Ribs Weight:</div> " + mortarPlateRibsWeight.toFixed(2) + " kg";
 
@@ -379,7 +379,7 @@
             // Calculate total inner volume
             var totalInnerVolumeLiters = innerVolume1Liters + innerVolume2Liters + innerVolume3Liters;
 
-            var totalvalumeLiters =  innerVolume1Liters + innerVolume3Liters;
+            var totalvalumeLiters = innerVolume1Liters + innerVolume3Liters;
 
             var outerlength1 = length1 + 2 + sideThickness;
             var outerwidth1 = width1 + 2 + sideThickness;
@@ -416,7 +416,7 @@
             // outerVolumeLabel.innerHTML = "<div class='result-label'>Outer Volume:</div> " + totalouterVolumeLiters.toFixed(2) + " liters";
 
             var innerVolumeLabel = document.getElementById("innerVolumeLabel");
-            innerVolumeLabel.innerHTML = "<div class='result-label'>Inner Volume:</div> " +  totalvalumeLiters.toFixed(2) + " liters";
+            innerVolumeLabel.innerHTML = "<div class='result-label'>Inner Volume:</div> " + totalvalumeLiters.toFixed(2) + " liters";
 
             // var differenceVolumeLabel = document.getElementById("differenceVolumeLabel");
             // differenceVolumeLabel.innerHTML = "<div class='result-label'>Difference in Volumes:</div> " + differenceVolumeLiters.toFixed(2) + " liters";
