@@ -227,6 +227,31 @@
                 <div id="frpWeightLebel" class="result-label"></div>
             </div>
         </div>
+
+        <!-- Custom Calculator Form -->
+        <div id="customTray" class="form-container">
+            <!-- Input Fields for Custom Tray -->
+            <h2>Fedder Selection</h2>
+            <label for="length">Length (mm):</label>
+            <input type="number" id="customLength">
+            <label for="width">Width (mm):</label>
+            <input type="number" id="customWidth">
+            <label for="height">Height (mm):</label>
+            <input type="number" id="customHeight">
+            <label for="thickness">Thickness (mm):</label>
+            <input type="number" id="customThickness">
+            <button onclick="calculateCustomWeight()">Calculate</button>
+            <!-- Reference Image and Results for Custom Tray -->
+            <!-- <img src="Img\CustomTray.png" alt="Custom Tray Reference"> -->
+            <div class="result-container">
+                <h2>Tray Weight Result</h2>
+                <div class="result-label" id="customWeightLabel"></div>
+                <div class="result-label" id="vibratorListLabel"></div>
+            </div>
+        </div>
+
+
+
     </div>
     <script>
 
@@ -444,6 +469,66 @@
 
             document.getElementById('frpResult').style.display = 'block';
         }
+
+        function calculateCustomWeight() {
+            var length = parseFloat(document.getElementById("customLength").value) / 1000;
+            var width = parseFloat(document.getElementById("customWidth").value) / 1000;
+            var height = parseFloat(document.getElementById("customHeight").value) / 1000;
+            var thickness = parseFloat(document.getElementById("customThickness").value);
+
+            var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.85;
+            var wt2 = (0.14 * length + 0.07 * width) * thickness * 7.85;
+            var flattotalWeight = weight + wt2;
+
+            var customWeightLabel = document.getElementById("customWeightLabel");
+            customWeightLabel.innerHTML = `<div class='result-label'>Tray Weight:</div> ${flattotalWeight.toFixed(2)} KG`;
+
+            var vibratorListLabel = document.getElementById("vibratorListLabel");
+            var selectedVibrators = [];
+
+            // Add conditions for selecting vibrators based on flattotalWeight
+            if (flattotalWeight >= 0 && flattotalWeight <= 2) {
+                selectedVibrators.push("SVOC");
+            }
+
+            if (flattotalWeight >= 0 && flattotalWeight <= 4) {
+                selectedVibrators.push("SVO1");
+            }
+
+            if (flattotalWeight >= 0 && flattotalWeight <= 8) {
+                selectedVibrators.push("SV02");
+            }
+
+            if (flattotalWeight >= 0 && flattotalWeight <= 11) {
+                selectedVibrators.push("SV50");
+            }
+
+            if (flattotalWeight >= 0 && flattotalWeight <= 22) {
+                selectedVibrators.push("SV90");
+            }
+
+            if (flattotalWeight >= 0 && flattotalWeight <= 25) {
+                selectedVibrators.push("SV100");
+            }
+
+            if (flattotalWeight >= 0 && flattotalWeight <= 70) {
+                selectedVibrators.push("SV200");
+            }
+
+            if (flattotalWeight >= 0 && flattotalWeight <= 20) {
+                selectedVibrators.push("SVSF 200");
+            }
+
+            if (flattotalWeight > 70) {
+                selectedVibrators.push("Over Weight");
+            }
+            // Display the selected vibrators
+            vibratorListLabel.innerHTML = `<div class='result-label'>Selected Vibrators:</div>`;
+            selectedVibrators.forEach(vibrator => {
+                vibratorListLabel.innerHTML += `<div>${vibrator}</div>`;
+            });
+        }
+
 
     </script>
 </body>
