@@ -240,6 +240,10 @@
             <input type="number" id="customHeight">
             <label for="thickness">Thickness (mm):</label>
             <input type="number" id="customThickness">
+            <label for="density">Density (kg/m³):</label>
+            <input type="number" id="density">
+            <label for="velocity">Velocity (m/min):</label>
+            <input type="number" id="velocity">
             <button onclick="calculateCustomWeight()">Calculate</button>
             <!-- Reference Image and Results for Custom Tray -->
             <!-- <img src="Img\CustomTray.png" alt="Custom Tray Reference"> -->
@@ -247,6 +251,7 @@
                 <h2>Tray Weight Result</h2>
                 <div class="result-label" id="customWeightLabel"></div>
                 <div class="result-label" id="vibratorListLabel"></div>
+                <div class="result-label" id="capacityLabel"></div>
             </div>
         </div>
 
@@ -475,6 +480,8 @@
             var width = parseFloat(document.getElementById("customWidth").value) / 1000;
             var height = parseFloat(document.getElementById("customHeight").value) / 1000;
             var thickness = parseFloat(document.getElementById("customThickness").value);
+            var density = parseFloat(document.getElementById("density").value);
+            var velocity = parseFloat(document.getElementById("velocity").value);
 
             var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.85;
             var wt2 = (0.14 * length + 0.07 * width) * thickness * 7.85;
@@ -516,7 +523,8 @@
             }
 
             if (flattotalWeight >= 0 && flattotalWeight <= 20) {
-                selectedVibrators.push("SVSF 200");            }
+                selectedVibrators.push("SVSF 200");
+            }
 
             if (flattotalWeight > 70) {
                 selectedVibrators.push("Over Weight");
@@ -526,6 +534,21 @@
             selectedVibrators.forEach(vibrator => {
                 vibratorListLabel.innerHTML += `<div>${vibrator}</div>`;
             });
+
+
+            // Calculate area
+            var area = length * width;
+
+            // Calculate capacity in kg/min
+            var capacityKgPerMin = density * area * (velocity / 60); // Convert velocity to m/s
+
+            // Convert capacity to tons per hour
+            var capacityTonsPerHour = capacityKgPerMin * (1 / 1000) * (60 / 1);
+
+            var capacityLabel = document.getElementById("capacityLabel");
+            capacityLabel.innerHTML = `<div class='result-label'>Feeder Capacity:</div> ${capacityTonsPerHour.toFixed(2)} tons/hr`;
+
+
         }
 
 
