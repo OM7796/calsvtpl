@@ -3,136 +3,51 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tray and Hopper Calculator</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f3f3f3;
-            margin: 0;
-            padding: 0;
-        }
-
-        .sticky-header {
-            background-color: #333333;
-            padding: 15px;
-            text-align: left;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .sticky-header img {
-            height: 50px;
-        }
-
-
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            /* Added for better spacing */
-            margin: 20px;
-        }
-
-        .form-container {
-            flex: 1;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(44, 37, 37, 0.1);
-            margin: 10px;
-            box-sizing: border-box;
-            /* Added for consistent box sizing */
-        }
-
-        .form-container img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            /* Added for rounded corners on images */
-            margin-top: 10px;
-            /* Adjusted margin for spacing */
-        }
-
-        .result-container {
-            flex: 1;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin: 10px;
-            box-sizing: border-box;
-            /* Added for consistent box sizing */
-        }
-
-        /* Added for better spacing and styling of input fields and labels */
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-            border-radius: 6px;
-        }
-
-        button {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Added for better styling of result labels */
-        .result-label {
-            margin-bottom: 8px;
-        }
-
-        /* Added for styling the hopper reference image */
-        #hopperimg {
-            width: 100%;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-    </style>
+    <title>SVTPL - Calculator</title>
+    <link rel="stylesheet" href="CSS\style.css">
 </head>
 
 <body>
-    <header class="sticky-header">
-        <img src="Img\Vibracion Logo.png" alt="Logo">
-    </header>
+    <div id="nav-bar">
+        <input id="nav-toggle" type="checkbox" />
+        <div id="nav-header"><a id="nav-title">SVTPL</a>
+            <label for="nav-toggle"><span id="nav-toggle-burger"></span></label>
+            <hr />
+        </div>
+        <div id="nav-content">
+            <div class="nav-button" onclick="showForm('flatTray')">Flat Tray</div>
+            <div class="nav-button" onclick="showForm('hopper')">Hopper</div>
+            <div class="nav-button" onclick="showForm('roundTray')">Round Tray</div>
+            <div class="nav-button" onclick="showForm('frp')">FRP</div>
+            <div class="nav-button" onclick="showForm('feederSelection')">Feeder Selection</div>
+            <hr />
+            <!-- <div class="nav-button"><i class="fas fa-gem"></i><span>Info</span></div> -->
+            <div id="nav-content-highlight"></div>
+        </div>
+    </div>
 
-    <div class="container">
-        <!-- Flat Tray Form -->
-        <div id="flatTray" class="form-container">
-            <!-- Input Fields for Flat Tray -->
-            <h2>Flat Tray</h2>
-            <label for="length">Length (mm):</label>
+    <!-- Flat Tray Form -->
+    <div id="flatTray" class="form-container">
+        <!-- Input Fields for Flat Tray -->
+        <div class="input-section">
+            <h2 id="heading">Flat Tray</h2>
+            <label for="length">Length (mm)</label>
             <input type="number" id="length">
-            <label for="width">Width (mm):</label>
+            <label for="width">Width (mm)</label>
             <input type="number" id="width">
-            <label for="height">Height (mm):</label>
+            <label for="height">Height (mm)</label>
             <input type="number" id="height">
-            <label for="thickness">Thickness (mm):</label>
+            <label for="thickness">Thickness (mm)</label>
             <input type="number" id="thickness">
-            <label for="sidePlateThickness">Side Plate Thickness (mm):</label>
+            <label for="sidePlateThickness">Side Plate Thickness (mm)</label>
             <input type="number" id="sidePlateThickness">
             <button onclick="calculateFlatTrayWeight()">Calculate</button>
-            <!-- Reference Image and Results for Flat Tray -->
-            <img src="Img\Length.png" alt="Flat Tray Reference">
-            <div class="result-container">
+        </div>
+        <!-- Reference Image and Results for Flat Tray -->
+        <div class="result-container">
+            <h2 id="heading">Flat Tray Reference Img</h2>
+            <img src="IMG\Length.png" alt="Flat Tray Reference">
+            <div class="result-content">
                 <h2>Flat Tray Result</h2>
                 <div class="result-label" id="flatTrayWeightLabel"></div>
                 <div class="result-label" id="sidePlateWeightLabel"></div>
@@ -140,25 +55,29 @@
                 <div class="result-label" id="totalWeightLabel"></div>
             </div>
         </div>
+    </div>
 
-        <!-- Round Tray Form -->
-        <div id="roundTray" class="form-container">
-            <!-- Input Fields for Round Tray -->
-            <h2>Round Tray</h2>
-            <label for="diameter">Diameter (mm):</label>
+    <!-- Round Tray Form -->
+    <div id="roundTray" class="form-container" style="display: none;">
+        <!-- Input Fields for Round Tray -->
+        <div class="input-section">
+            <h2 id="heading">Round Tray</h2>
+            <label for="diameter">Diameter (mm)</label>
             <input type="number" id="diameter">
-            <label for="lengthRound">Length (mm):</label>
+            <label for="lengthRound">Length (mm)</label>
             <input type="number" id="lengthRound">
-            <label for="thicknessRound">Thickness (mm):</label>
+            <label for="thicknessRound">Thickness (mm)</label>
             <input type="number" id="thicknessRound">
-            <label for="sidePlateThicknessRound">Side Plate Thickness (mm):</label>
+            <label for="sidePlateThicknessRound">Side Plate Thickness (mm)</label>
             <input type="number" id="sidePlateThicknessRound">
-            <label for="clamps">Number of Clamps:</label>
+            <label for="clamps">Number of Clamps</label>
             <input type="number" id="clamps">
             <button onclick="calculateRoundTrayWeight()">Calculate</button>
-            <!-- Reference Image and Results for Round Tray
-            <img src="Img\HopperR.jpg" alt="Round Tray Reference"> -->
-            <div class="result-container">
+        </div>
+        <!-- Reference Image and Results for Round Tray -->
+        <div class="result-container">
+            <!-- Add reference image for Round Tray -->
+            <div class="result-content">
                 <h2>Round Tray Result</h2>
                 <div class="result-label" id="roundTrayWeightLabel"></div>
                 <div class="result-label" id="roundSidePlateWeightLabel"></div>
@@ -166,391 +85,113 @@
                 <div class="result-label" id="totalRoundTrayWeightLabel"></div>
             </div>
         </div>
+    </div>
 
-        <!-- Hopper Form -->
-        <div id="hopper" class="form-container">
-            <!-- Input Fields for Hopper -->
-            <h2>Hopper</h2>
-            <label for="length1">Inlet Length (C) (mm):</label>
+    <!-- Hopper Form -->
+    <div id="hopper" class="form-container" style="display: none;">
+        <!-- Input Fields for Hopper -->
+        <div class="input-section">
+            <h2 id="heading">Hopper</h2>
+            <label for="length1">Inlet Length (C) (mm)</label>
             <input type="number" id="length1">
 
-            <label for="width1">Inlet Width (D) (mm):</label>
+            <label for="width1">Inlet Width (D) (mm)</label>
             <input type="number" id="width1">
 
-            <label for="height1">Inlet Height (H2) (mm):</label>
+            <label for="height1">Inlet Height (H2) (mm)</label>
             <input type="number" id="height1">
 
-            <label for="length2">Outlet Length (A) (mm):</label>
+            <label for="length2">Outlet Length (A) (mm)</label>
             <input type="number" id="length2">
 
-            <label for="width2">Outlet Width (B) (mm):</label>
+            <label for="width2">Outlet Width (B) (mm)</label>
             <input type="number" id="width2">
 
-            <label for="height2">Outlet Height (mm):</label>
+            <label for="height2">Outlet Height (mm)</label>
             <input type="number" id="height2">
 
-            <!-- <label for="height3">Hopper Height 3 (mm):</label>
-            <input type="number" id="height3"> -->
+            <label for="height3"> Height (mm)</label>
+            <input type="number" id="height3">
 
-            <!-- <label for="density">Density (g/cm³):</label>
-            <input type="number" id="density"> -->
-
-            <label for="sideThickness">Thickness (mm):</label>
-            <input type="number" id="sideThickness">
+            <!-- Add more input fields as needed for Hopper form -->
 
             <button onclick="calculateHopperVolume()">Calculate</button>
-            <!-- Reference Image and Results for Hopper -->
-            <img src="Img\hopper.png" alt="Hopper Reference" id="hopperimg">
-            <div class="result-container">
+        </div>
+        <!-- Reference Image and Results for Hopper -->
+        <div class="result-container">
+            <h2 id="heading">Flat Tray Reference Img</h2>
+            <img src="IMG/hopper.png" alt="Hopper Reference" id="hopperimg">
+            <div class="result-content">
                 <h2>Hopper Result</h2>
+                <!-- Add result labels for Hopper -->
                 <div id="heightofhopperLabel" class="result-label"></div>
-                <!-- <div id="outerVolumeLabel" class="result-label"></div> -->
                 <div id="innerVolumeLabel" class="result-label"></div>
-                <!-- <div id="differenceVolumeLabel" class="result-label"></div> -->
                 <div id="weightLabel" class="result-label"></div>
                 <div id="frameLabel" class="result-label"></div>
-
             </div>
         </div>
+    </div>
 
-        <!-- FRP Form -->
-        <div id="frp" class="form-container">
-            <!-- Input Fields for FRP -->
-            <h2>FRP</h2>
-            <label for="numberOfHangers">Number of FRP Hangers (Pair):</label>
+    <!-- FRP Form -->
+    <div id="frp" class="form-container" style="display: none;">
+        <!-- Input Fields for FRP -->
+        <div class="input-section">
+            <h2 id="heading">FRP</h2>
+            <label for="numberOfHangers">Number of FRP Hangers (Pair) </label>
             <input type="number" id="numberOfHangers" name="numberOfHangers" required>
             <button onclick="calculateFRPWeight()">Calculate</button>
-            <!-- Reference Image and Results for FRP
-            <img src="Img\HopperR.jpg" alt="FRP Reference"> -->
-            <div class="result-container">
+        </div>
+
+        <!-- Reference Image and Results for FRP -->
+        <div class="result-container">
+            <div class="result-content">
                 <h2>FRP Result</h2>
                 <div id="frpWeightLebel" class="result-label"></div>
             </div>
         </div>
+    </div>
 
-        <!-- Custom Calculator Form -->
-        <div id="customTray" class="form-container">
-            <!-- Input Fields for Custom Tray -->
-            <h2>Fedder Selection</h2>
-            <label for="length">Length (mm):</label>
-            <input type="number" id="customLength">
-            <label for="width">Width (mm):</label>
-            <input type="number" id="customWidth">
-            <label for="height">Height (mm):</label>
-            <input type="number" id="customHeight">
-            <label for="thickness">Thickness (mm):</label>
-            <input type="number" id="customThickness">
+    <!-- Feeder Selection Form -->
+    <div id="feederSelection" class="form-container" style="display: none;">
+        <!-- Input Fields for Feeder Selection -->
+        <div class="input-section">
+            <h2 id="heading">Feeder Selection</h2>
+            <label for="feederLength">Length (mm):</label>
+            <input type="number" id="feederLength" required>
+
+            <label for="feederWidth">Width (mm):</label>
+            <input type="number" id="feederWidth" required>
+
+            <label for="feederHeight">Height (mm):</label>
+            <input type="number" id="feederHeight" required>
+
+            <label for="feederThickness">Thickness (mm):</label>
+            <input type="number" id="feederThickness" required>
+
             <label for="density">Density (kg/m³):</label>
-            <input type="number" id="density">
+            <input type="number" id="feederdensity" required>
+
             <label for="velocity">Velocity (m/min):</label>
-            <input type="number" id="velocity">
-            <button onclick="calculateCustomWeight()">Calculate</button>
-            <!-- Reference Image and Results for Custom Tray -->
-            <!-- <img src="Img\CustomTray.png" alt="Custom Tray Reference"> -->
-            <div class="result-container">
-                <h2>Tray Weight Result</h2>
-                <div class="result-label" id="customWeightLabel"></div>
-                <div class="result-label" id="vibratorListLabel"></div>
-                <div class="result-label" id="capacityLabel"></div>
-            </div>
+            <input type="number" id="feedervelocity" required>
+
+            <label for="capacity">Capacity (tons/hr):</label>
+            <input type="number" id="feedercapacity" required>
+
+            <button onclick="calculateFeederWeight()">Calculate Weight</button>
         </div>
 
-
-
+        <div class="result-container">
+            <div class="result-content">
+                <h2>Feeder Selection Result</h2>
+                <!-- Add result labels for Hopper -->
+                <div id="result" class="result-label"></div>
+                <div id="trayResults" class="result-label"></div>
+            </div>
+        </div>
     </div>
-    <script>
 
-        function calculateFlatTrayWeight() {
-            var length = parseFloat(document.getElementById("length").value) / 1000;
-            var width = parseFloat(document.getElementById("width").value) / 1000;
-            var height = parseFloat(document.getElementById("height").value) / 1000;
-            var thickness = parseFloat(document.getElementById("thickness").value);
-            var sidePlateThickness = parseFloat(document.getElementById("sidePlateThickness").value);
-
-            var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.85;
-            var wt2 = (0.14 * length + 0.07 * width) * thickness * 7.85;
-            var flattotalWeight = weight + wt2;
-
-            var flatTrayWeightLabel = document.getElementById("flatTrayWeightLabel");
-            flatTrayWeightLabel.innerHTML = "<div class='result-label'>Flat Tray Weight:</div> " + flattotalWeight.toFixed(2) + " kg";
-
-            // Calculate side plate weight
-            var flatTrayLength = length * 0.92;
-            var triangleHeight = 0.4;
-
-            var triangleArea = 0.5 * flatTrayLength * triangleHeight;
-            var triangleWeight = 2 * (triangleArea * sidePlateThickness * 7.85);
-            var platerect = 2 * (flatTrayLength * 0.2 * sidePlateThickness * 7.850);
-            var totalside = platerect + triangleWeight;
-
-            var sidePlateWeightLabel = document.getElementById("sidePlateWeightLabel");
-            sidePlateWeightLabel.innerHTML = "<div class='result-label'>Side Plate Weight:</div> " + totalside.toFixed(2) + " kg";
-
-            // Calculate mortar mounting plate and ribs weight
-            var sidePlateWeight = totalside;
-            var ribsWeight = 0.8 * sidePlateWeight;
-            var mortarPlateWeight = 30;
-            var mortarPlateRibsWeight = ribsWeight + mortarPlateWeight;
-            var mortarPlateRibsWeightLabel = document.getElementById("mortarPlateRibsWeightLabel");
-            mortarPlateRibsWeightLabel.innerHTML = "<div class='result-label'>Mortar Plate and Ribs Weight:</div> " + mortarPlateRibsWeight.toFixed(2) + " kg";
-
-            // Calculate total weight
-            var totalWeight = flattotalWeight + triangleWeight + mortarPlateRibsWeight;
-
-            var totalWeightLabel = document.getElementById("totalWeightLabel");
-            totalWeightLabel.innerHTML = "<div class='result-label'>Total Weight:</div> " + totalWeight.toFixed(2) + " kg";
-
-            // Update user-entered values in the image (converted to millimeters)
-            document.getElementById("lengthValue").textContent = length.toFixed(2);
-            document.getElementById("widthValue").textContent = width.toFixed(2);
-            document.getElementById("heightValue").textContent = height.toFixed(2);
-            document.getElementById("lengthValue").textContent = length.toFixed(2);
-            document.getElementById("widthValue").textContent = width.toFixed(2);
-            document.getElementById("heightValue").textContent = height.toFixed(2);
-        }
-
-        function calculateRoundTrayWeight() {
-            var diameter = parseFloat(document.getElementById('diameter').value);
-            var thickness = parseFloat(document.getElementById('thicknessRound').value);
-            var length = parseFloat(document.getElementById('lengthRound').value) / 1000; // Convert to meters
-
-            var finalDiameter = (diameter - thickness) * (3.14159265359 / 1000); // Calculate final diameter
-
-            var weight1 = finalDiameter * length * thickness * 7.85; // Calculate weight
-            var weight2 = finalDiameter * 0.25 * thickness * 7.85; // Calculate weight
-            var weight3 = finalDiameter * 0.2 * thickness * 7.85;
-            // var weight4 = (diameter+50 )-thickness * length *thickness*7.85;
-
-            var weight = weight1 + weight2 + weight3;
-
-            var weight4 = (diameter + 50) - thickness * length * thickness * 7.850;
-
-            var roundTrayWeightLabel = document.getElementById("roundTrayWeightLabel");
-            roundTrayWeightLabel.innerHTML = "<div class='result-label'>Round Tray Weight:</div> " + weight.toFixed(2) + " kg";
-
-            var sidePlateLength = length * 0.8;
-            var triangleHeight = 0.6;
-            var triangleArea = 0.5 * sidePlateLength * triangleHeight;
-            var roundSidePlateThickness = parseFloat(document.getElementById("sidePlateThicknessRound").value);
-            var roundSidePlateWeight = 2 * (triangleArea * roundSidePlateThickness * 7.85);
-
-            var roundSidePlateWeightLabel = document.getElementById("roundSidePlateWeightLabel");
-            roundSidePlateWeightLabel.innerHTML = "<div class='result-label'>Round Side Plate Weight:</div> " + roundSidePlateWeight.toFixed(2) + " kg";
-
-            var diameter = parseFloat(document.getElementById('diameter').value) / 1000;
-            var thickness = parseFloat(document.getElementById('thicknessRound').value);
-            var length = parseFloat(document.getElementById('lengthRound').value) / 1000; // Convert to meters
-            var clamps = parseInt(document.getElementById('clamps').value);
-
-            // Calculate clamp weight
-            var width = diameter * Math.PI;
-            var oneClampWeight = width * 0.1 * thickness * 7.85;
-            var clampWeight = oneClampWeight * clamps;
-            var clampWeightLabel = document.getElementById("clampWeightLabel");
-            clampWeightLabel.innerHTML = "<div class='result-label'>Clamp Weight:</div> " + clampWeight.toFixed(2) + " kg";
-
-            // Calculate total weight
-            var totalRoundTrayWeight = weight + roundSidePlateWeight + clampWeight;
-
-            var totalRoundTrayWeightLabel = document.getElementById("totalRoundTrayWeightLabel");
-            totalRoundTrayWeightLabel.innerHTML = "<div class='result-label'>Total Round Tray Weight:</div> " + totalRoundTrayWeight.toFixed(2) + " kg";
-
-            totalRoundTrayWeightLabel.style.display = 'block';
-
-            var roundTrayResult = document.getElementById("roundTrayResult");
-            roundTrayResult.style.display = 'block';
-
-            var roundSidePlateWeightLabel = document.getElementById("roundSidePlateWeightLabel");
-            roundSidePlateWeightLabel.style.display = 'block';
-
-            var clampWeightLabel = document.getElementById("clampWeightLabel");
-            clampWeightLabel.style.display = 'block';
-
-            var roundTrayWeightLabel = document.getElementById("roundTrayWeightLabel");
-            roundTrayWeightLabel.style.display = 'block';
-        }
-
-
-        function calculateHopperVolume() {
-            var length1 = parseFloat(document.getElementById("length1").value);
-            var width1 = parseFloat(document.getElementById("width1").value);
-            var height1 = parseFloat(document.getElementById("height1").value);
-            var length2 = parseFloat(document.getElementById("length2").value);
-            var width2 = parseFloat(document.getElementById("width2").value);
-            var height2 = parseFloat(document.getElementById("height2").value);
-            // var height3 = parseFloat(document.getElementById("height3").value);
-            // var density = parseFloat(document.getElementById("density").value);
-            var sideThickness = parseFloat(document.getElementById("sideThickness").value);
-            var density = 7.850;
-
-            var baseLength = (length1 - length2) / 2;
-
-            // Given angle in degrees
-            var angle60Degrees = 60;
-
-            // Convert angle to radians
-            var angle60Radians = (angle60Degrees * Math.PI) / 180;
-
-            // Calculate the height using the tangent of the angle
-            var height3 = baseLength * Math.tan(angle60Radians);
-
-            // Calculate inner volume1
-            var innerVolume1CubicMM = length1 * width1 * height1;
-            var innerVolume1Liters = innerVolume1CubicMM * 1e-6;
-
-            // Calculate inner volume2
-            var innerVolume2CubicMM = length2 * width2 * height2;
-            var innerVolume2Liters = innerVolume2CubicMM * 1e-6;
-
-            // Calculate inner volume3
-            var innerVolume3CubicMM = (length1 * width1 * height3) - width1 * (length1 - length2 / 2) * height3;
-            var innerVolume3Liters = innerVolume3CubicMM * 1e-6;
-
-            // Calculate total inner volume
-            var totalInnerVolumeLiters = innerVolume1Liters + innerVolume2Liters + innerVolume3Liters;
-
-            var totalvalumeLiters = innerVolume1Liters + innerVolume3Liters;
-
-            var outerlength1 = length1 + 2 + sideThickness;
-            var outerwidth1 = width1 + 2 + sideThickness;
-
-            var outerlength2 = length2 + 2 + sideThickness;
-            var outerwidth2 = width2 + 2 + sideThickness;
-
-
-            // Calculate outer volume1
-            var outerVolume1CubicMM = outerlength1 * outerwidth1 * height1;
-            var outerVolume1Liters = outerVolume1CubicMM * 1e-6;
-
-            // Calculate outer volume2
-            var outerVolume2CubicMM = outerlength2 * outerwidth2 * height2;
-            var outerVolume2Liters = outerVolume2CubicMM * 1e-6;
-
-            // Calculate outer volume3
-            var outerVolume3CubicMM = (outerlength1 * outerwidth1 * height3) - outerwidth1 * (outerlength1 - outerlength2 / 2) * height3;
-            var outerVolume3Liters = outerVolume3CubicMM * 1e-6;
-
-            // Calculate total outer volume
-            var totalouterVolumeLiters = outerVolume1Liters + outerVolume2Liters + outerVolume3Liters;
-
-            // Calculate difference in volumes
-            var differenceVolumeLiters = totalouterVolumeLiters - totalInnerVolumeLiters;
-
-            // Calculate weight in kilograms
-            var hopperWeightKg = differenceVolumeLiters * density;
-
-            var frame = [((length1 + 100) * 4) + ((width1 + 100) * 4) + (4000)] * 0.0042452631578147;
-
-            // // Display the results
-            // var outerVolumeLabel = document.getElementById("outerVolumeLabel");
-            // outerVolumeLabel.innerHTML = "<div class='result-label'>Outer Volume:</div> " + totalouterVolumeLiters.toFixed(2) + " liters";
-
-            var innerVolumeLabel = document.getElementById("innerVolumeLabel");
-            innerVolumeLabel.innerHTML = "<div class='result-label'>Inner Volume:</div> " + totalvalumeLiters.toFixed(2) + " liters";
-
-            // var differenceVolumeLabel = document.getElementById("differenceVolumeLabel");
-            // differenceVolumeLabel.innerHTML = "<div class='result-label'>Difference in Volumes:</div> " + differenceVolumeLiters.toFixed(2) + " liters";
-
-            var weightLabel = document.getElementById("weightLabel");
-            weightLabel.innerHTML = "<div class='result-label'>Weight of Hopper (kg):</div> " + hopperWeightKg.toFixed(2) + " kg";
-
-            var frameLabel = document.getElementById("frameLabel");
-            frameLabel.innerHTML = "<div class='result-label'>Weight of Stand (kg):</div> " + frame.toFixed(2) + " kg";
-
-            var heightofhopperLabel = document.getElementById("heightofhopperLabel");
-            heightofhopperLabel.innerHTML = "<div class='result-label'>Slop of Height (H1)(mm) 60%:</div> " + height3.toFixed(2) + " mm";
-
-            // Display the result container
-            document.getElementById("hopperResult").style.display = 'block';
-        }
-
-
-        function calculateFRPWeight() {
-            var numberOfHangers = parseInt(document.getElementById('numberOfHangers').value);
-            var frpWeight = numberOfHangers * 1300 / 1000; // Convert grams to kilograms
-
-            var frpWeightLebel = document.getElementById("frpWeightLebel");
-            frpWeightLebel.innerHTML = "<div class='result-label'>Weight of FRP (kg):</div> " + frpWeight.toFixed(2) + " kg";
-
-            document.getElementById('frpResult').style.display = 'block';
-        }
-
-        function calculateCustomWeight() {
-            var length = parseFloat(document.getElementById("customLength").value) / 1000;
-            var width = parseFloat(document.getElementById("customWidth").value) / 1000;
-            var height = parseFloat(document.getElementById("customHeight").value) / 1000;
-            var thickness = parseFloat(document.getElementById("customThickness").value);
-            var density = parseFloat(document.getElementById("density").value);
-            var velocity = parseFloat(document.getElementById("velocity").value);
-
-            var weight = ((length * width) + (length * (2 * height)) + (width * height)) * thickness * 7.85;
-            var wt2 = (0.14 * length + 0.07 * width) * thickness * 7.85;
-            var flattotalWeight = weight + wt2;
-
-            var customWeightLabel = document.getElementById("customWeightLabel");
-            customWeightLabel.innerHTML = `<div class='result-label'>Tray Weight:</div> ${flattotalWeight.toFixed(2)} KG`;
-
-            var vibratorListLabel = document.getElementById("vibratorListLabel");
-            var selectedVibrators = [];
-
-            // Add conditions for selecting vibrators based on flattotalWeight
-            if (flattotalWeight >= 0 && flattotalWeight <= 2) {
-                selectedVibrators.push("SVOC");
-            }
-
-            if (flattotalWeight >= 0 && flattotalWeight <= 4) {
-                selectedVibrators.push("SVO1");
-            }
-
-            if (flattotalWeight >= 0 && flattotalWeight <= 8) {
-                selectedVibrators.push("SV02");
-            }
-
-            if (flattotalWeight >= 0 && flattotalWeight <= 11) {
-                selectedVibrators.push("SV50");
-            }
-
-            if (flattotalWeight >= 0 && flattotalWeight <= 22) {
-                selectedVibrators.push("SV90");
-            }
-
-            if (flattotalWeight >= 0 && flattotalWeight <= 25) {
-                selectedVibrators.push("SV100");
-            }
-
-            if (flattotalWeight >= 0 && flattotalWeight <= 70) {
-                selectedVibrators.push("SV200");
-            }
-
-            if (flattotalWeight >= 0 && flattotalWeight <= 20) {
-                selectedVibrators.push("SVSF 200");
-            }
-
-            if (flattotalWeight > 70) {
-                selectedVibrators.push("Over Weight");
-            }
-            // Display the selected vibrators
-            vibratorListLabel.innerHTML = `<div class='result-label'>Selected Vibrators:</div>`;
-            selectedVibrators.forEach(vibrator => {
-                vibratorListLabel.innerHTML += `<div>${vibrator}</div>`;
-            });
-
-
-            // Calculate area
-            var area = length * width;
-
-            // Calculate capacity in kg/min
-            var capacityKgPerMin = density * area * (velocity / 60); // Convert velocity to m/s
-
-            // Convert capacity to tons per hour
-            var capacityTonsPerHour = capacityKgPerMin * (1 / 1000) * (60 / 1);
-
-            var capacityLabel = document.getElementById("capacityLabel");
-            capacityLabel.innerHTML = `<div class='result-label'>Feeder Capacity:</div> ${capacityTonsPerHour.toFixed(2)} tons/hr`;
-
-
-        }
-
+    <!--JavaScript import hear-->
+    <script src="script.js">
 
     </script>
 </body>
